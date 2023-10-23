@@ -1,0 +1,319 @@
+{
+	"info": {
+		"_postman_id": "e35b7883-c829-4bf9-a98f-8f84dc8e7710",
+		"name": "Booking_App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26515196",
+		"_collection_link": "https://www.postman.com/winter-capsule-961230/workspace/booking-app-test/collection/26515196-e35b7883-c829-4bf9-a98f-8f84dc8e7710?action=share&source=collection_link&creator=26515196"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Sign up",
+					"item": [
+						{
+							"name": "Sign up",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Extract OTP and Token\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.environment.set(\"signupOTP\", jsonData.otp);\r",
+											"    pm.environment.set(\"signupToken\", jsonData.token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"anns.sherry@gmail.com\",\r\n    \"app_key\": \"0123456789abcdef\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}auth/mail-sign-up",
+									"host": [
+										"{{url}}auth"
+									],
+									"path": [
+										"mail-sign-up"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sign up-OTP",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Parse the response JSON\r",
+											"const res = pm.response.json();\r",
+											"\r",
+											"// Check if the response contains the OTP and access token\r",
+											"if (res.access_token && res.refresh_token) {\r",
+											"    // Store OTP and access token in environment variables\r",
+											"    pm.environment.set('access_token', res.access_token);\r",
+											"    pm.environment.set('refresh_token', res.refresh_token);\r",
+											"    console.log(pm.environment.otp);\r",
+											"} else {\r",
+											"    console.error(\"OTP or access token not found in the response.\");\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"otp\": \"gm3temzu\",\r\n    \"token\": \"{{signupToken}}\",\r\n    \"device_id\": \"300\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}auth/token",
+									"host": [
+										"{{url}}auth"
+									],
+									"path": [
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh_token",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"token\": \"{{refresh_token}}\",\r\n    \"device_id\": \"300\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}auth/refresh_token",
+									"host": [
+										"{{url}}auth"
+									],
+									"path": [
+										"refresh_token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Sign in",
+					"item": [
+						{
+							"name": "Sign in",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Extract OTP and Token\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.environment.set(\"signinOTP\", jsonData.otp);\r",
+											"    pm.environment.set(\"signinToken\", jsonData.token);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"anns.sherry@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}auth/mail-sign-in",
+									"host": [
+										"{{url}}auth"
+									],
+									"path": [
+										"mail-sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sign in-OTP (Authtoken)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											" // Parse the response JSON\r",
+											"\r",
+											"const res = pm.response.json();\r",
+											"\r",
+											"if (res.refresh_token) {\r",
+											"\r",
+											"   pm.environment.set('refresh_token', res.refresh_token);\r",
+											"\r",
+											"    console.log(pm.environment.otp);\r",
+											"\r",
+											"} else {\r",
+											"\r",
+											"    console.error(\"OTP or access token not found in the response.\");\r",
+											"\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"otp\": \"{{signinOTP}}\",\r\n    \"token\": \"{{signinToken}}\",\r\n    \"device_id\": \"300\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}auth/token",
+									"host": [
+										"{{url}}auth"
+									],
+									"path": [
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh_token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Parse the response JSON\r",
+											"const res = pm.response.json();\r",
+											"\r",
+											"// Check if the response contains the OTP and access token\r",
+											"if (res.access_token && res.refresh_token) {\r",
+											"    // Store OTP and access token in environment variables\r",
+											"    //pm.environment.set('access_token', res.access_token);\r",
+											"    pm.environment.set('refresh_token1', res.refresh_token);\r",
+											"    console.log(pm.environment.otp);\r",
+											"} else {\r",
+											"    console.error(\"OTP or access token not found in the response.\");\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"token\": \"{{refresh_token}}\",\r\n    \"device_id\": \"300\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}auth/refresh_token",
+									"host": [
+										"{{url}}auth"
+									],
+									"path": [
+										"refresh_token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"{{refresh_token}}\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/logout",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
