@@ -1,0 +1,3407 @@
+{
+	"info": {
+		"_postman_id": "07a3fa15-ca00-4f0c-ac77-e27ac6d034ec",
+		"name": "Regression testing",
+		"description": "# 🧪 Get started here\n\nThis template helps ensure your API continues to work as expected after updates or changes. It contains sample requests and [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) for a series of tests that validate different aspects of an API, including:\n\n1. **Status code verification:** We'll check if the API returns the expected status codes for various requests, ensuring reliability and proper error handling.\n2. **JSON schema verification:** We'll make sure the JSON response conforms to a specified JSON Schema, ensuring API contracts are honored.\n3. **Response time verification:** We'll verify that the API's response time is within the acceptable range, providing a smooth user experience and optimizing performance.\n4. **Response body verification:** We'll validate the structure and content of the response body for accuracy, ensuring the integrity of the data and preventing potential issues downstream.\n5. **Header verification:** We'll confirm the presence and correct values of specific headers in the response, enabling secure and well-structured communication between your app and its users.\n    \n\n## 🔖 **How to use this template**\n\n**Step 1:** Send the sample requests and view the response and test results.\n\n**Step 2:** Replace the sample request URLs with your desired API endpoints.\n\n**Step 3:** Customize the tests in the \"Tests\" tab if needed. Don't forget to save your changes.\n\n**Step 4:** [Run the collection](https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs/) by selecting \"Run\".\n\n<img src=\"https://content.pstmn.io/666cfa65-6e00-4308-871b-f831128bc0ac/Y29sbGVjdGlvbi1ydW5uZXItYnV0dG9uLmpwZWc=\" width=\"246\" height=\"102\">\n\n## 💡Related templates\n\n[Integration testing](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=fe506090-ca91-4340-bea9-82d2c3d2bb9a&sourceTemplateId=7ab0f80e-a964-46ee-b948-4a4e3a85809c)  \n[Performance testing](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=3302192d-87dd-4612-b381-61894de21203&sourceTemplateId=7ab0f80e-a964-46ee-b948-4a4e3a85809c)  \n[Mock data generation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=da8ceebc-d4da-478c-ab8a-37634faefc74&sourceTemplateId=7ab0f80e-a964-46ee-b948-4a4e3a85809c)  \n[Common API vulnerabilities check](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e1edbae8-6429-453d-890e-00385eea1811&sourceTemplateId=7ab0f80e-a964-46ee-b948-4a4e3a85809c)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sign in Customer",
+			"item": [
+				{
+					"name": "Sign in",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"id": "63b3e8a3-da81-4de0-9ab6-3f98e4e64745"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Extract OTP and Token\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.environment.set(\"signinOTP\", jsonData.otp);\r",
+									"    pm.environment.set(\"signinToken\", jsonData.token);\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "60e29b67-464d-4995-b6d9-e9ee3165b675"
+							}
+						}
+					],
+					"id": "79edd470-181e-4765-8b98-2da7c84b0dda",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"annsherry+CUSTOMER@agilecybersolutions.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}user/auth/mail-sign-in"
+					},
+					"response": []
+				},
+				{
+					"name": "Sign in-OTP (Authtoken)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									" // Parse the response JSON\r",
+									"\r",
+									"const res = pm.response.json();\r",
+									"\r",
+									"if (res.refresh_token) {\r",
+									"\r",
+									"   pm.environment.set('refresh_token', res.refresh_token);\r",
+									"\r",
+									"    console.log(pm.environment.otp);\r",
+									"\r",
+									"} else {\r",
+									"\r",
+									"    console.error(\"OTP or access token not found in the response.\");\r",
+									"\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"id": "3658dca9-4a7b-4541-882c-10659f64f449"
+							}
+						}
+					],
+					"id": "1d6cfd78-3cf6-4857-b325-a0fea0fe1a1e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"otp\": \"{{signinOTP}}\",\r\n    \"token\": \"{{signinToken}}\",\r\n    \"device_id\": \"30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}/user/auth/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh_token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the response JSON\r",
+									"const res = pm.response.json();\r",
+									"\r",
+									"// Check if the response contains the OTP and access token\r",
+									"if (res.access_token && res.refresh_token) {\r",
+									"    // Store OTP and access token in environment variables\r",
+									"    //pm.environment.set('access_token', res.access_token);\r",
+									"    pm.environment.set('refresh_token1', res.refresh_token);\r",
+									"    console.log(pm.environment.otp);\r",
+									"} else {\r",
+									"    console.error(\"OTP or access token not found in the response.\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "aea6969f-1b23-4a6e-8339-952d82c83f61"
+							}
+						}
+					],
+					"id": "cde076c8-e53f-43f9-a2dd-d9d7bea2039b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"{{refresh_token}}\",\r\n    \"device_id\": \"30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}/user/auth/refresh_token"
+					},
+					"response": []
+				}
+			],
+			"id": "cc55192c-7d50-400c-a291-b2d8e787c989"
+		},
+		{
+			"name": "Sign in Admin",
+			"item": [
+				{
+					"name": "Sign in",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"id": "0e61fe56-c4a3-44e7-945c-96e984a1cad7"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Extract OTP and Token\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.environment.set(\"Admin_signinOTP\", jsonData.otp);\r",
+									"    pm.environment.set(\"Admin_signinToken\", jsonData.token);\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "2c1e5b17-510a-446a-a284-73ce874aea62"
+							}
+						}
+					],
+					"id": "62a61bbc-6b4f-4689-9d11-0cc9ae23e372",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"annsherry+ADM@agilecybersolutions.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}user/auth/mail-sign-in"
+					},
+					"response": []
+				},
+				{
+					"name": "Sign in-OTP (Authtoken)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									" // Parse the response JSON\r",
+									"\r",
+									"const res = pm.response.json();\r",
+									"\r",
+									"if (res.refresh_token) {\r",
+									"\r",
+									"   pm.environment.set('Admin_refresh_token', res.refresh_token);\r",
+									"\r",
+									"    console.log(pm.environment.otp);\r",
+									"\r",
+									"} else {\r",
+									"\r",
+									"    console.error(\"OTP or access token not found in the response.\");\r",
+									"\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"id": "0f1e717d-843f-43d4-bcb9-76013a31e249"
+							}
+						}
+					],
+					"id": "4fbf7318-2da9-47e8-aec1-22fb29205894",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"otp\": \"{{Admin_signinOTP}}\",\r\n    \"token\": \"{{Admin_signinToken}}\",\r\n    \"device_id\": \"30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}/user/auth/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh_token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the response JSON\r",
+									"const res = pm.response.json();\r",
+									"\r",
+									"// Check if the response contains the OTP and access token\r",
+									"if (res.access_token && res.refresh_token) {\r",
+									"    // Store OTP and access token in environment variables\r",
+									"    //pm.environment.set('access_token', res.access_token);\r",
+									"    pm.environment.set('Admin_refresh_token1', res.refresh_token);\r",
+									"    console.log(pm.environment.otp);\r",
+									"} else {\r",
+									"    console.error(\"OTP or access token not found in the response.\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "4990bce3-e9bb-4705-b1f4-9529e0137ee7"
+							}
+						}
+					],
+					"id": "1909c430-4b5c-4947-9bcb-b4103c12cb3f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"{{Admin_refresh_token}}\",\r\n    \"device_id\": \"30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}/user/auth/refresh_token"
+					},
+					"response": []
+				}
+			],
+			"id": "48812118-6c61-4224-8232-542e786bc8e3"
+		},
+		{
+			"name": "Organisational Settings",
+			"item": [
+				{
+					"name": "Form structure",
+					"id": "d10d8644-0c4a-472d-8a1f-8f20b4d08d9c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}/user/form-structure/fields/organization_settings"
+					},
+					"response": []
+				},
+				{
+					"name": "beneficiary_subtype list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"beneficiary_subtype_ID\", responseJson.data[0][\"id\"]);\r",
+									"//postman.setEnvironmentVariable(\"beneficiary_subtype\", responseJson.data[1][\"name\"]);\r",
+									"\r",
+									"// Assuming responseJson.data is an array containing objects with a \"name\" field\r",
+									"const randomIndex = Math.floor(Math.random() * responseJson.data.length); // Get a random index within the array length\r",
+									"const randomName = responseJson.data[randomIndex][\"name\"]; // Get the \"name\" from the randomly selected index\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"beneficiary_subtype\", randomName); // Set the random name to the environment variable\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "fa741e7b-1202-47f5-9e3f-09bc71f1e2a1"
+							}
+						}
+					],
+					"id": "9800a773-ca91-4cfd-8542-13361a44902a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}user/list/beneficiary_subtype"
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the JSON response\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"// Get the data array containing IDs\r",
+									"const responseData = responseJson.data;\r",
+									"\r",
+									"// Generate a random index within the array length\r",
+									"const randomIndex = Math.floor(Math.random() * responseData.length);\r",
+									"\r",
+									"// Get the random ID from the randomly selected index\r",
+									"const randomId = responseData[randomIndex].id;\r",
+									"\r",
+									"// Set the random ID as an environment variable named \"random_id\"\r",
+									"pm.environment.set(\"invoice_id\", randomId);\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "fafb39df-1520-4090-a25e-77856abcfcbd"
+							}
+						}
+					],
+					"id": "ea670c96-5b0c-4d61-b81e-072a83ba18f9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}user/list/invoice_settings"
+					},
+					"response": []
+				},
+				{
+					"name": "currency List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"currency_ID\", responseJson.data[0][\"id\"]);"
+								],
+								"type": "text/javascript",
+								"id": "ab1d5acb-2986-4636-bf5f-7effd8a822b0"
+							}
+						}
+					],
+					"id": "77048ab3-1c22-437c-98f8-ef6d16d4c1f9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}user/list/currency"
+					},
+					"response": []
+				},
+				{
+					"name": "payment List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the JSON response\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"// Get the data array containing IDs\r",
+									"const responseData = responseJson.data;\r",
+									"\r",
+									"// Generate a random index within the array length\r",
+									"const randomIndex = Math.floor(Math.random() * responseData.length);\r",
+									"\r",
+									"// Get the random ID from the randomly selected index\r",
+									"const randomId = responseData[randomIndex].id;\r",
+									"\r",
+									"// Set the random ID as an environment variable named \"random_id\"\r",
+									"pm.environment.set(\"payment_id\", randomId);"
+								],
+								"type": "text/javascript",
+								"id": "5b8b0100-aab5-4630-8e15-99150e03629e"
+							}
+						}
+					],
+					"id": "0990a51d-d2de-4001-bca2-64eab55ad4b3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}user/list/payment_settings"
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Generate a random number between 1 and 100 for cancellation_fee\r",
+									"const cancellationFee = Math.floor(Math.random() * 100) + 1;\r",
+									"\r",
+									"// Log the generated random number to the console\r",
+									"console.log('cancellation_fee_in_percent:', cancellationFee);\r",
+									"\r",
+									"// Set the cancellation fee in the global environment\r",
+									"pm.globals.set('cancellation_fee_in_percent', cancellationFee);\r",
+									"\r",
+									"\r",
+									"// Generate a random number between 1 and 100 for cancellation_fee\r",
+									"const days = Math.floor(Math.random() * 22) + 0;\r",
+									"\r",
+									"// Log the generated random number to the console\r",
+									"console.log('days:', days);\r",
+									"\r",
+									"// Set the cancellation fee in the global environment\r",
+									"pm.globals.set('days', days);\r",
+									"\r",
+									"\r",
+									"// Generate a random number between 1 and 100 for cancellation_fee\r",
+									"const hours = Math.floor(Math.random() * 22) + 0;\r",
+									"\r",
+									"// Log the generated random number to the console\r",
+									"console.log('hours:', hours);\r",
+									"\r",
+									"// Set the cancellation fee in the global environment\r",
+									"pm.globals.set('hours', hours);\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "46171421-6202-4a1a-bcfb-d575570f3706"
+							}
+						}
+					],
+					"id": "79131481-c65a-4535-88bd-db0c437fc3fc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": 8,\r\n    \"data\": [\r\n        {\r\n            \"app_name\": \"Pet Care App\",\r\n            \"subscriber_id\": 1,\r\n            \"beneficiary_type\": \"Pet\",\r\n            \"subtype_id\":{{beneficiary_subtype_ID}},\r\n            \"beneficiary_subtype\":\"{{beneficiary_subtype}}\",\r\n            \"beneficiary_login\": 0,\r\n            \"user_approval_configuration\": 1,\r\n            \"manual_approval\": 0,\r\n            \"organizational_name\": \"Pet Care Technology\",\r\n            \"currency_id\": {{currency_ID}},\r\n            \"minimum_cancellation_notice\": {\r\n                \"days\": {{days}},\r\n                \"hours\":{{hours}}\r\n            },\r\n            \"cancellation_fee_in_percent\": {{cancellation_fee_in_percent}},\r\n            \"cancellation_message\": \"Service not available \",\r\n            \"organization_logo\": \"https://staging-booking.agilecyber.com/files/files/1/user/MicrosoftTeams-image (33).png\",\r\n            \"invoice_id\": [\r\n                {{invoice_id}}\r\n            ],\r\n            \"payment_id\": [\r\n                {{payment_id}}\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}user/form_submit"
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"organization_ID\", responseJson.data[0][\"id\"]);"
+								],
+								"type": "text/javascript",
+								"id": "4eb024a3-2912-4ace-a367-d16c16451a31"
+							}
+						}
+					],
+					"id": "a061b897-75ab-4a2f-a137-1a081a37194f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}user/list/organization_settings"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"id": "0c78fdee-bc11-403e-8a27-ba16aeea61a0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\": {{organization_ID}},\r\n            \"app_name\": \"Pet Care App\",\r\n            \"subscriber_id\": 1,\r\n            \"beneficiary_type\": \"Lab\",\r\n            \"subtype_id\":{{beneficiary_subtype_ID}},\r\n            \"beneficiary_subtype\":\"{{beneficiary_subtype}}\",\r\n            \"beneficiary_login\": 0,\r\n            \"user_approval_configuration\": 1,\r\n            \"manual_approval\": 0,\r\n            \"organizational_name\": \"PetCareTechnology\",\r\n            \"currency_id\": {{currency_ID}},\r\n            \"minimum_cancellation_notice\": {\r\n               \"days\": {{days}},\r\n                \"hours\":{{hours}}\r\n            },\r\n            \"cancellation_fee_in_percent\": {{cancellation_fee_in_percent}},\r\n            \"cancellation_message\": \"Service not available \",\r\n            \"organization_logo\": \"https://staging-booking.agilecyber.com/files/files/1/user/MicrosoftTeams-image (33).png\",\r\n            \"invoice_id\": [\r\n                {{invoice_id}}\r\n            ],\r\n            \"payment_id\": [\r\n                {{payment_id}}\r\n            ]\r\n        }\r\n    ]\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}user/form_submit?form_id=8",
+							"host": [
+								"{{Url}}user"
+							],
+							"path": [
+								"form_submit"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "8"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "85e6a769-cf11-49af-a94c-8010daffe901",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{Admin_refresh_token1}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "ac1e89ef-3236-4a4a-9502-a021530f1f30"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "843bcc67-f567-49d1-a101-2ff198ea61cc"
+					}
+				}
+			]
+		},
+		{
+			"name": "Time Slots",
+			"item": [
+				{
+					"name": "Structure",
+					"id": "f9ee32c1-a5a1-48c1-8057-767bfbf026c5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Admin_refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}service/form-structure/fields/time_slots "
+					},
+					"response": []
+				},
+				{
+					"name": "Create time slot",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const Time_SlotNames = [\r",
+									"    \"Morning 8 to 10\", \"Noon\", \"Evening\"\r",
+									"];\r",
+									"\r",
+									"// Function to get a random time slot name\r",
+									"function getRandomTimeSlotName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * Time_SlotNames.length);\r",
+									"    return Time_SlotNames[randomIndex];\r",
+									"}\r",
+									"\r",
+									"// Get the random time slot name\r",
+									"const randomTimeSlot = getRandomTimeSlotName();\r",
+									"\r",
+									"// Set the random time slot name as a global environment variable\r",
+									"pm.globals.set(\"random_time_slot\", randomTimeSlot);\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "42731ae2-48f4-4de2-9913-9b1bc8dbf76a"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "bbfc73f5-895e-4af7-b7dc-6eb265fc9536"
+							}
+						}
+					],
+					"id": "cac9fe9d-ad86-4569-a24a-e7855a0e6aa5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": 2,\r\n    \"data\": [\r\n        {\r\n            \"name\": \"{{random_time_slot}}\",\r\n            \"description\":\"These time slots are commonly used for various pet services such as pet grooming, pet sitting, dog walking, veterinary appointments, and more. \"\r\n        }\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}service/form_submit"
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"Slot_id\", responseJson.data[0]['id']);"
+								],
+								"type": "text/javascript",
+								"id": "b8919803-2836-4c95-b9b2-134b9a501077"
+							}
+						}
+					],
+					"id": "d7515114-cc85-4f7e-ab71-d294e7ebf951",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Admin_refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}service/list/time_slots"
+					},
+					"response": []
+				},
+				{
+					"name": "Update time slot",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "143e405c-e0a3-4466-9e97-a508b28dcb03"
+							}
+						}
+					],
+					"id": "bf79d20a-1bab-4806-b89e-287b3aebf9cd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\": {{Slot_id}},\r\n           \"name\": \"{{random_time_slot}}\",\r\n            \"description\":\"These time slots are commonly used for various pet services such as pet grooming, pet sitting, dog walking, veterinary appointments, and more. \"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}service/form_submit?form_id=2",
+							"host": [
+								"{{Url}}service"
+							],
+							"path": [
+								"form_submit"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "3b4c2a07-bd56-4a9b-a7d5-e6cdd243805f"
+		},
+		{
+			"name": "Services",
+			"item": [
+				{
+					"name": "form-structure",
+					"id": "6e5bc998-317c-4812-b569-21eb79e2b04f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}/service/form-structure/fields/service"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "0f9f3d73-2f08-4139-8c7f-c3c3e0c681df"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Service_name = [\r",
+									"    \"Pet Boarding\",\"Dog Walking\",\"Pet Sitting\",\"Veterinary Services\",\"Pet Grooming\",\r",
+									"    \"Pet Training\", \"Pet Daycare\", \"Pet Transportation\", \"Pet Nutrition Consultation\", \"Pet Photography\"\r",
+									"];\r",
+									"\r",
+									"// Function to get a random service name\r",
+									"function getRandomServiceName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * Service_name.length);\r",
+									"    return Service_name[randomIndex];\r",
+									"}\r",
+									"\r",
+									"// Get a random service name\r",
+									"const randomService = getRandomServiceName();\r",
+									"\r",
+									"// Set the random service name as a global environment variable\r",
+									"pm.globals.set(\"random_service_name\", randomService);\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"// Generate a random base price between 10 and 1000 (adjust range as needed)\r",
+									"const basePrice = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;\r",
+									"\r",
+									"// Set the random base price as a global environment variable named \"base_price\"\r",
+									"pm.globals.set(\"base_price\", basePrice);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "14c25501-d433-4b2d-9197-86ab83054233"
+							}
+						}
+					],
+					"id": "0ae1e0e2-cd9b-4101-b65d-770102128cad",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"name\": \"{{random_service_name}}\",\r\n            \"image\": null,\r\n            \"description\": \"The pet services segment, including grooming, boarding, pet hotels, pet sitting, day care and other services, has been the fastest-growing\",\r\n            \"base_price\": {{base_price}},\r\n            \"enable_repeat_booking\": 1,\r\n            \"auto_approval_threshold_limit\": 2,\r\n            \"booking_beyond_capacity\": 60,\r\n            \"beneficiary_subtype_id\": \"{{beneficiary_subtype_ID}}\",\r\n            \"beneficiary_age_limit_max\": {\r\n                \"year\": 120,\r\n                \"month\": 11\r\n            },\r\n            \"beneficiary_age_limit_min\": {\r\n                \"year\": 112,\r\n                \"month\": 11\r\n            },\r\n            \"advance_booking_requirement\": {\r\n                \"day\": 7\r\n            },\r\n            \"maximum_allowed_date_for_booking\": {\r\n                \"day\": 10\r\n            },\r\n            \"staff_handling_capacity\": 34,\r\n            \"service_availability\": 1,\r\n            \"available_date_from\": \"23-11-2023\",\r\n            \"available_date_to\": \"24-11-2024\",\r\n            \"time_slots_id\": [\r\n                {{Slot_id}}\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}service/form_submit"
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"Service_id\", responseJson.data[0]['id']);"
+								],
+								"type": "text/javascript",
+								"id": "77772a4f-4fcb-49cc-af8c-c3ec0da86cd3"
+							}
+						}
+					],
+					"id": "5b4921fb-851d-42cd-8446-0fb347a9730b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}service/list/service"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"id": "a7d90c1a-de19-4083-aba8-aca4e791c738",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\": \"{{Service_id}}\",\r\n            \"name\": \"{{random_service_name}}\",\r\n            \"image\": null,\r\n            \"description\": \"The pet services segment, including grooming, boarding, pet hotels, pet sitting, day care and other services, has been the fastest-growing\",\r\n            \"base_price\": {{base_price}},\r\n            \"enable_repeat_booking\": 1,\r\n            \"auto_approval_threshold_limit\": 2,\r\n            \"booking_beyond_capacity\": 60,\r\n            \"beneficiary_subtype_id\": \"{{beneficiary_subtype_ID}}\",\r\n            \"beneficiary_age_limit_max\": {\r\n                \"year\": 120,\r\n                \"month\": 11\r\n            },\r\n            \"beneficiary_age_limit_min\": {\r\n                \"year\": 112,\r\n                \"month\": 11\r\n            },\r\n            \"advance_booking_requirement\": {\r\n                \"day\": 7\r\n            },\r\n            \"maximum_allowed_date_for_booking\": {\r\n                \"day\": 10\r\n            },\r\n            \"staff_handling_capacity\": 34,\r\n            \"service_availability\": 1,\r\n            \"available_date_from\": \"23-11-2023\",\r\n            \"available_date_to\": \"24-11-2024\",\r\n            \"time_slots_id\": [\r\n                {{Slot_id}}\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}service/form_submit?form_id=1",
+							"host": [
+								"{{Url}}service"
+							],
+							"path": [
+								"form_submit"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "cdd06ffd-51d1-4ec4-9249-4927fc749d0a",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{Admin_refresh_token1}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "c6d8ef5a-3f82-488e-9ae5-970a8ff9b7d3"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "1388b688-a630-43cf-8edb-df97d2c04927"
+					}
+				}
+			]
+		},
+		{
+			"name": "User details",
+			"item": [
+				{
+					"name": "Form Structure",
+					"id": "3e3ea3fc-7c99-4486-a167-e015c8aca9ec",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}user/form-structure/fields/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// List of names\r",
+									"const names = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// List of domain names\r",
+									"const domains = [\"gmail.com\", \"agilecyber.com\", \"agilecybersolutions.com\"];\r",
+									" \r",
+									"// Function to generate a unique email with random 5-digit number\r",
+									"function generateUniqueEmail() {\r",
+									"    const randomIndexName = Math.floor(Math.random() * names.length);\r",
+									"    const randomName = names[randomIndexName].toLowerCase();\r",
+									"    \r",
+									"    const randomIndexDomain = Math.floor(Math.random() * domains.length);\r",
+									"    const randomDomain = domains[randomIndexDomain];\r",
+									" \r",
+									"    const uniqueIdentifier = Math.floor(10000 + Math.random() * 90000); // Generate random 5-digit number\r",
+									" \r",
+									"    return `${randomName}_${uniqueIdentifier}@${randomDomain}`;\r",
+									"}\r",
+									" \r",
+									"// Set the unique email as a variable\r",
+									"pm.variables.set(\"User-email\", generateUniqueEmail()); \r",
+									"\r",
+									"\r",
+									"//Firstname\r",
+									"// List of first names\r",
+									"const firstNames = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// Function to get a random first name\r",
+									"function getRandomFirstName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * firstNames.length);\r",
+									"    return firstNames[randomIndex];\r",
+									"}\r",
+									" \r",
+									"// Set the random first name as a variable\r",
+									"pm.variables.set(\"User-firstname\", getRandomFirstName()); \r",
+									"\r",
+									"\r",
+									"const randomPostcodes = [\r",
+									"    \"AB1 2CD\", \"EF3 4GH\", \"IJ5 6KL\", \"MN7 8OP\", \"QR9 0ST\", \"UV1 2WX\", \"YZ3 4AB\",\r",
+									"    \"BC6 7DE\", \"GH8 9IJ\", \"KL0 1MN\", \"OP2 3QR\", \"ST4 5UV\", \"WX6 7YZ\", \"DE8 9FG\",\r",
+									"    \"IJ0 1KL\", \"MN2 3OP\", \"QR4 5ST\", \"UV6 7WX\", \"YZ8 9AB\", \"FG0 1IJ\", \"KL3 4MN\",\r",
+									"    \"OP5 6QR\", \"ST7 8UV\", \"WX9 0YZ\", \"AB2 3CD\", \"DE4 5FG\", \"IJ6 7KL\", \"MN8 9OP\",\r",
+									"    \"QR1 2ST\", \"UV3 4WX\"\r",
+									"];\r",
+									" \r",
+									"function getRandomPostal() {\r",
+									"    const randomIndex = Math.floor(Math.random() * randomPostcodes.length);\r",
+									"    return randomPostcodes[randomIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"postcode\", getRandomPostal()); \r",
+									"\r",
+									"\r",
+									"\r",
+									"function generateRandomName() {\r",
+									"  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';\r",
+									"  const nameLength = Math.floor(Math.random() * 10) + 5; // Generates a name with 5 to 14 characters\r",
+									"  let randomName = '';\r",
+									"\r",
+									"  for (let i = 0; i < nameLength; i++) {\r",
+									"    const randomIndex = Math.floor(Math.random() * alphabet.length);\r",
+									"    randomName += alphabet.charAt(randomIndex);\r",
+									"  }\r",
+									"\r",
+									"  return randomName;\r",
+									"}\r",
+									"\r",
+									"const randomName = generateRandomName();\r",
+									"pm.globals.set(\"city\", randomName);\r",
+									"\r",
+									"\r",
+									"\r",
+									"const randomDigits = [\r",
+									"    \"9876543210\", \"8765432109\", \"7654321098\", \"6543210987\", \"5432109876\", \"4321098765\", \"3210987654\"\r",
+									"];\r",
+									"\r",
+									"// Function to generate a random set of 7 digits for the phone number\r",
+									"function getRandomPhoneNumber() {\r",
+									"    const randomDigit = Math.floor(Math.random() * randomDigits.length);\r",
+									"    return randomDigits[randomDigit];\r",
+									"}\r",
+									"\r",
+									"// Set the random UK phone number as a variable\r",
+									"pm.variables.set(\"phone\", `44${getRandomPhoneNumber()}`);\r",
+									"\r",
+									"\r",
+									"const randomHouseNames = [\r",
+									"    \"Rose Cottage\", \"Oak View House\", \"Meadowcroft\", \"The Pines\", \"Riverside Manor\",\r",
+									"    \"Elmwood Lodge\", \"Ivy Cottage\", \"Sunnyside Retreat\", \"Willow House\", \"Cedar Haven\",\r",
+									"    \"Maple Mansion\", \"Sunset Villa\", \"Riverbank House\", \"Cherry Blossom Cottage\", \"Lakeside Lodge\",\r",
+									"    \"Hilltop Haven\", \"Cedar Retreat\", \"Rosewood Residence\", \"Ivy Lane Cottage\", \"Forest View House\",\r",
+									"    \"Alder Manor\", \"Beechwood House\", \"Juniper Retreat\", \"Magnolia Mansion\", \"Winding Way Cottage\",\r",
+									"    \"Harbor View House\", \"Greenwood Cottage\", \"Silver Oak Residence\"\r",
+									"];\r",
+									"\r",
+									"function getRandomHouse() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomHouseNames.length);\r",
+									"    return randomHouseNames[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address\", getRandomHouse());\r",
+									"\r",
+									"// Random Address\r",
+									"\r",
+									"const randomStreets = [\r",
+									"    \"High Street\", \"Main Street\", \"Park Avenue\", \"Maple Street\", \"Oak Avenue\",\r",
+									"    \"Chestnut Lane\", \"Willow Road\", \"Pine Drive\", \"Elm Street\", \"Birch Lane\",\r",
+									"    \"Meadow Lane\", \"Sunset Boulevard\", \"River Road\", \"Sycamore Avenue\", \"Cherry Lane\",\r",
+									"    \"Lakeside Drive\", \"Hillcrest Avenue\", \"Cedar Street\", \"Rosewood Lane\", \"Ivy Lane\",\r",
+									"    \"Forest Avenue\", \"Alder Road\", \"Beech Street\", \"Juniper Lane\", \"Magnolia Drive\",\r",
+									"    \"Winding Way\", \"Harbor View\", \"Greenwood Avenue\", \"Silver Oak Lane\"\r",
+									"];\r",
+									"\r",
+									"function getRandomStreet() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomStreets.length);\r",
+									"    return randomStreets[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address1\", getRandomStreet()); \r",
+									"\r",
+									"\r",
+									"const randomCities = [\r",
+									"    \"London\", \"Manchester\", \"Birmingham\", \"Edinburgh\", \"Glasgow\", \"Liverpool\",\r",
+									"    \"Bristol\", \"Belfast\", \"Cardiff\", \"Leeds\", \"Sheffield\", \"Newcastle upon Tyne\",\r",
+									"    \"Nottingham\", \"Southampton\", \"Oxford\", \"Cambridge\", \"York\", \"Bath\", \"Aberdeen\",\r",
+									"    \"Brighton\", \"Inverness\", \"Exeter\", \"Dundee\", \"Chester\", \"Stirling\", \"Portsmouth\"\r",
+									"];\r",
+									"\r",
+									"function getRandomCity() {\r",
+									"   const randomCityIndex = Math.floor(Math.random() * randomCities.length);\r",
+									"   return randomCities[randomCityIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"City\", getRandomCity());\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "c94497b2-d92f-4840-af60-f76597e336f1"
+							}
+						}
+					],
+					"id": "e6a0bbd9-4513-4445-84b6-78051d5d3fbe",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": 2,\r\n    \"data\": [\r\n        {\r\n            \"profile_image\":null,\r\n            \"email\": \"{{User-email}}\",\r\n            \"first_name\": \"{{User-firstname}}\",\r\n            \"last_name\": \"CUSTOMER\",\r\n            \"country_id\": \"1\",\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{City}}\",\r\n            \"post_code\":\"{{postcode}}\",\r\n            \"user_preference\": 7,\r\n            \"payment_method_id\": {{payment_id}},\r\n            \"invoice_frequency_id\":{{invoice_id}}\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}user/form_submit"
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"user_ID\", responseJson.data[0]['id']);\r",
+									"postman.setEnvironmentVariable(\"e-mail\", responseJson.data[0]['email']);"
+								],
+								"type": "text/javascript",
+								"id": "05ee0b98-58db-433d-b5a6-f938da1dbebd"
+							}
+						}
+					],
+					"id": "78571650-21b2-4f46-8cc0-0ff42bdf7df1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Admin_refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}/user/list/user"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// List of names\r",
+									"const names = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// List of domain names\r",
+									"const domains = [\"gmail.com\", \"agilecyber.com\", \"agilecybersolutions.com\"];\r",
+									" \r",
+									"// Function to generate a unique email with random 5-digit number\r",
+									"function generateUniqueEmail() {\r",
+									"    const randomIndexName = Math.floor(Math.random() * names.length);\r",
+									"    const randomName = names[randomIndexName].toLowerCase();\r",
+									"    \r",
+									"    const randomIndexDomain = Math.floor(Math.random() * domains.length);\r",
+									"    const randomDomain = domains[randomIndexDomain];\r",
+									" \r",
+									"    const uniqueIdentifier = Math.floor(10000 + Math.random() * 90000); // Generate random 5-digit number\r",
+									" \r",
+									"    return `${randomName}_${uniqueIdentifier}@${randomDomain}`;\r",
+									"}\r",
+									" \r",
+									"// Set the unique email as a variable\r",
+									"pm.variables.set(\"User-email\", generateUniqueEmail()); \r",
+									"\r",
+									"\r",
+									"//Firstname\r",
+									"// List of first names\r",
+									"const firstNames = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// Function to get a random first name\r",
+									"function getRandomFirstName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * firstNames.length);\r",
+									"    return firstNames[randomIndex];\r",
+									"}\r",
+									" \r",
+									"// Set the random first name as a variable\r",
+									"pm.variables.set(\"User-firstname\", getRandomFirstName()); \r",
+									"\r",
+									"\r",
+									"const randomPostcodes = [\r",
+									"    \"AB1 2CD\", \"EF3 4GH\", \"IJ5 6KL\", \"MN7 8OP\", \"QR9 0ST\", \"UV1 2WX\", \"YZ3 4AB\",\r",
+									"    \"BC6 7DE\", \"GH8 9IJ\", \"KL0 1MN\", \"OP2 3QR\", \"ST4 5UV\", \"WX6 7YZ\", \"DE8 9FG\",\r",
+									"    \"IJ0 1KL\", \"MN2 3OP\", \"QR4 5ST\", \"UV6 7WX\", \"YZ8 9AB\", \"FG0 1IJ\", \"KL3 4MN\",\r",
+									"    \"OP5 6QR\", \"ST7 8UV\", \"WX9 0YZ\", \"AB2 3CD\", \"DE4 5FG\", \"IJ6 7KL\", \"MN8 9OP\",\r",
+									"    \"QR1 2ST\", \"UV3 4WX\"\r",
+									"];\r",
+									" \r",
+									"function getRandomPostal() {\r",
+									"    const randomIndex = Math.floor(Math.random() * randomPostcodes.length);\r",
+									"    return randomPostcodes[randomIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"postcode\", getRandomPostal()); \r",
+									"\r",
+									"\r",
+									"\r",
+									"function generateRandomName() {\r",
+									"  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';\r",
+									"  const nameLength = Math.floor(Math.random() * 10) + 5; // Generates a name with 5 to 14 characters\r",
+									"  let randomName = '';\r",
+									"\r",
+									"  for (let i = 0; i < nameLength; i++) {\r",
+									"    const randomIndex = Math.floor(Math.random() * alphabet.length);\r",
+									"    randomName += alphabet.charAt(randomIndex);\r",
+									"  }\r",
+									"\r",
+									"  return randomName;\r",
+									"}\r",
+									"\r",
+									"const randomName = generateRandomName();\r",
+									"pm.globals.set(\"city\", randomName);\r",
+									"\r",
+									"\r",
+									"\r",
+									"const randomDigits = [\r",
+									"    \"9876543210\", \"8765432109\", \"7654321098\", \"6543210987\", \"5432109876\", \"4321098765\", \"3210987654\"\r",
+									"];\r",
+									"\r",
+									"// Function to generate a random set of 7 digits for the phone number\r",
+									"function getRandomPhoneNumber() {\r",
+									"    const randomDigit = Math.floor(Math.random() * randomDigits.length);\r",
+									"    return randomDigits[randomDigit];\r",
+									"}\r",
+									"\r",
+									"// Set the random UK phone number as a variable\r",
+									"pm.variables.set(\"phone\", `44${getRandomPhoneNumber()}`);\r",
+									"\r",
+									"\r",
+									"const randomHouseNames = [\r",
+									"    \"Rose Cottage\", \"Oak View House\", \"Meadowcroft\", \"The Pines\", \"Riverside Manor\",\r",
+									"    \"Elmwood Lodge\", \"Ivy Cottage\", \"Sunnyside Retreat\", \"Willow House\", \"Cedar Haven\",\r",
+									"    \"Maple Mansion\", \"Sunset Villa\", \"Riverbank House\", \"Cherry Blossom Cottage\", \"Lakeside Lodge\",\r",
+									"    \"Hilltop Haven\", \"Cedar Retreat\", \"Rosewood Residence\", \"Ivy Lane Cottage\", \"Forest View House\",\r",
+									"    \"Alder Manor\", \"Beechwood House\", \"Juniper Retreat\", \"Magnolia Mansion\", \"Winding Way Cottage\",\r",
+									"    \"Harbor View House\", \"Greenwood Cottage\", \"Silver Oak Residence\"\r",
+									"];\r",
+									"\r",
+									"function getRandomHouse() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomHouseNames.length);\r",
+									"    return randomHouseNames[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address\", getRandomHouse());\r",
+									"\r",
+									"// Random Address\r",
+									"\r",
+									"const randomStreets = [\r",
+									"    \"High Street\", \"Main Street\", \"Park Avenue\", \"Maple Street\", \"Oak Avenue\",\r",
+									"    \"Chestnut Lane\", \"Willow Road\", \"Pine Drive\", \"Elm Street\", \"Birch Lane\",\r",
+									"    \"Meadow Lane\", \"Sunset Boulevard\", \"River Road\", \"Sycamore Avenue\", \"Cherry Lane\",\r",
+									"    \"Lakeside Drive\", \"Hillcrest Avenue\", \"Cedar Street\", \"Rosewood Lane\", \"Ivy Lane\",\r",
+									"    \"Forest Avenue\", \"Alder Road\", \"Beech Street\", \"Juniper Lane\", \"Magnolia Drive\",\r",
+									"    \"Winding Way\", \"Harbor View\", \"Greenwood Avenue\", \"Silver Oak Lane\"\r",
+									"];\r",
+									"\r",
+									"function getRandomStreet() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomStreets.length);\r",
+									"    return randomStreets[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address1\", getRandomStreet()); \r",
+									"\r",
+									"\r",
+									"const randomCities = [\r",
+									"    \"London\", \"Manchester\", \"Birmingham\", \"Edinburgh\", \"Glasgow\", \"Liverpool\",\r",
+									"    \"Bristol\", \"Belfast\", \"Cardiff\", \"Leeds\", \"Sheffield\", \"Newcastle upon Tyne\",\r",
+									"    \"Nottingham\", \"Southampton\", \"Oxford\", \"Cambridge\", \"York\", \"Bath\", \"Aberdeen\",\r",
+									"    \"Brighton\", \"Inverness\", \"Exeter\", \"Dundee\", \"Chester\", \"Stirling\", \"Portsmouth\"\r",
+									"];\r",
+									"\r",
+									"function getRandomCity() {\r",
+									"   const randomCityIndex = Math.floor(Math.random() * randomCities.length);\r",
+									"   return randomCities[randomCityIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"City\", getRandomCity());\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "ac5dfc83-10f4-474d-8a91-fc208e9ebfae"
+							}
+						}
+					],
+					"id": "f7ba3e23-e165-4366-b8b9-039ff8263d3f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\": {{user_ID}},\r\n            \"profile_image\": null,\r\n            \"email\": \"{{e-mail}}\",\r\n            \"first_name\": \"{{User-firstname}}\",\r\n            \"last_name\": \"CUSTOMER\",\r\n            \"country_id\": \"1\",\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{City}}\",\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"user_preference\": 7,\r\n            \"payment_method_id\": {{payment_id}},\r\n            \"invoice_frequency_id\": {{invoice_id}}\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}/user/form_submit?form_id=2",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"user",
+								"form_submit"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "approve",
+					"id": "f9808186-3e62-4266-8d72-aea386e2a7e0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Admin_refresh_token1}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": "{{Url}}user/{{user_ID}}/role/approve"
+					},
+					"response": []
+				},
+				{
+					"name": "unapproved list",
+					"id": "0571b2d9-134f-4984-ae10-d2f77cee1817",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Admin_refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}user/list/unapprove"
+					},
+					"response": []
+				}
+			],
+			"id": "99d0c739-b3d7-44fb-af9b-5cd90ad8d158"
+		},
+		{
+			"name": "Admin info details",
+			"item": [
+				{
+					"name": "form-structure",
+					"id": "bf8dad6b-b629-41c9-95c7-3d5df2acfef6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Admin_refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}user/form-structure/fields/user_management"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// List of names\r",
+									"const names = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// List of domain names\r",
+									"const domains = [\"gmail.com\", \"agilecyber.com\", \"agilecybersolutions.com\"];\r",
+									" \r",
+									"// Function to generate a unique email with random 5-digit number\r",
+									"function generateUniqueEmail() {\r",
+									"    const randomIndexName = Math.floor(Math.random() * names.length);\r",
+									"    const randomName = names[randomIndexName].toLowerCase();\r",
+									"    \r",
+									"    const randomIndexDomain = Math.floor(Math.random() * domains.length);\r",
+									"    const randomDomain = domains[randomIndexDomain];\r",
+									" \r",
+									"    const uniqueIdentifier = Math.floor(10000 + Math.random() * 90000); // Generate random 5-digit number\r",
+									" \r",
+									"    return `${randomName}_${uniqueIdentifier}@${randomDomain}`;\r",
+									"}\r",
+									" \r",
+									"// Set the unique email as a variable\r",
+									"pm.variables.set(\"Admin-email\", generateUniqueEmail()); \r",
+									"\r",
+									"\r",
+									"//Firstname\r",
+									"// List of first names\r",
+									"const firstNames = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// Function to get a random first name\r",
+									"function getRandomFirstName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * firstNames.length);\r",
+									"    return firstNames[randomIndex];\r",
+									"}\r",
+									" \r",
+									"// Set the random first name as a variable\r",
+									"pm.variables.set(\"Admin-firstname\", getRandomFirstName()); \r",
+									"\r",
+									"\r",
+									"const randomPostcodes = [\r",
+									"    \"AB1 2CD\", \"EF3 4GH\", \"IJ5 6KL\", \"MN7 8OP\", \"QR9 0ST\", \"UV1 2WX\", \"YZ3 4AB\",\r",
+									"    \"BC6 7DE\", \"GH8 9IJ\", \"KL0 1MN\", \"OP2 3QR\", \"ST4 5UV\", \"WX6 7YZ\", \"DE8 9FG\",\r",
+									"    \"IJ0 1KL\", \"MN2 3OP\", \"QR4 5ST\", \"UV6 7WX\", \"YZ8 9AB\", \"FG0 1IJ\", \"KL3 4MN\",\r",
+									"    \"OP5 6QR\", \"ST7 8UV\", \"WX9 0YZ\", \"AB2 3CD\", \"DE4 5FG\", \"IJ6 7KL\", \"MN8 9OP\",\r",
+									"    \"QR1 2ST\", \"UV3 4WX\"\r",
+									"];\r",
+									" \r",
+									"function getRandomPostal() {\r",
+									"    const randomIndex = Math.floor(Math.random() * randomPostcodes.length);\r",
+									"    return randomPostcodes[randomIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"postcode\", getRandomPostal()); \r",
+									"\r",
+									"\r",
+									"\r",
+									"function generateRandomName() {\r",
+									"  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';\r",
+									"  const nameLength = Math.floor(Math.random() * 10) + 5; // Generates a name with 5 to 14 characters\r",
+									"  let randomName = '';\r",
+									"\r",
+									"  for (let i = 0; i < nameLength; i++) {\r",
+									"    const randomIndex = Math.floor(Math.random() * alphabet.length);\r",
+									"    randomName += alphabet.charAt(randomIndex);\r",
+									"  }\r",
+									"\r",
+									"  return randomName;\r",
+									"}\r",
+									"\r",
+									"const randomName = generateRandomName();\r",
+									"pm.globals.set(\"city\", randomName);\r",
+									"\r",
+									"\r",
+									"\r",
+									"const randomDigits = [\r",
+									"    \"9876543210\", \"8765432109\", \"7654321098\", \"6543210987\", \"5432109876\", \"4321098765\", \"3210987654\"\r",
+									"];\r",
+									"\r",
+									"// Function to generate a random set of 7 digits for the phone number\r",
+									"function getRandomPhoneNumber() {\r",
+									"    const randomDigit = Math.floor(Math.random() * randomDigits.length);\r",
+									"    return randomDigits[randomDigit];\r",
+									"}\r",
+									"\r",
+									"// Set the random UK phone number as a variable\r",
+									"pm.variables.set(\"phone\", `44${getRandomPhoneNumber()}`);\r",
+									"\r",
+									"\r",
+									"const randomHouseNames = [\r",
+									"    \"Rose Cottage\", \"Oak View House\", \"Meadowcroft\", \"The Pines\", \"Riverside Manor\",\r",
+									"    \"Elmwood Lodge\", \"Ivy Cottage\", \"Sunnyside Retreat\", \"Willow House\", \"Cedar Haven\",\r",
+									"    \"Maple Mansion\", \"Sunset Villa\", \"Riverbank House\", \"Cherry Blossom Cottage\", \"Lakeside Lodge\",\r",
+									"    \"Hilltop Haven\", \"Cedar Retreat\", \"Rosewood Residence\", \"Ivy Lane Cottage\", \"Forest View House\",\r",
+									"    \"Alder Manor\", \"Beechwood House\", \"Juniper Retreat\", \"Magnolia Mansion\", \"Winding Way Cottage\",\r",
+									"    \"Harbor View House\", \"Greenwood Cottage\", \"Silver Oak Residence\"\r",
+									"];\r",
+									"\r",
+									"function getRandomHouse() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomHouseNames.length);\r",
+									"    return randomHouseNames[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address\", getRandomHouse());\r",
+									"\r",
+									"// Random Address\r",
+									"\r",
+									"const randomStreets = [\r",
+									"    \"High Street\", \"Main Street\", \"Park Avenue\", \"Maple Street\", \"Oak Avenue\",\r",
+									"    \"Chestnut Lane\", \"Willow Road\", \"Pine Drive\", \"Elm Street\", \"Birch Lane\",\r",
+									"    \"Meadow Lane\", \"Sunset Boulevard\", \"River Road\", \"Sycamore Avenue\", \"Cherry Lane\",\r",
+									"    \"Lakeside Drive\", \"Hillcrest Avenue\", \"Cedar Street\", \"Rosewood Lane\", \"Ivy Lane\",\r",
+									"    \"Forest Avenue\", \"Alder Road\", \"Beech Street\", \"Juniper Lane\", \"Magnolia Drive\",\r",
+									"    \"Winding Way\", \"Harbor View\", \"Greenwood Avenue\", \"Silver Oak Lane\"\r",
+									"];\r",
+									"\r",
+									"function getRandomStreet() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomStreets.length);\r",
+									"    return randomStreets[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address1\", getRandomStreet()); \r",
+									"\r",
+									"\r",
+									"const randomCities = [\r",
+									"    \"London\", \"Manchester\", \"Birmingham\", \"Edinburgh\", \"Glasgow\", \"Liverpool\",\r",
+									"    \"Bristol\", \"Belfast\", \"Cardiff\", \"Leeds\", \"Sheffield\", \"Newcastle upon Tyne\",\r",
+									"    \"Nottingham\", \"Southampton\", \"Oxford\", \"Cambridge\", \"York\", \"Bath\", \"Aberdeen\",\r",
+									"    \"Brighton\", \"Inverness\", \"Exeter\", \"Dundee\", \"Chester\", \"Stirling\", \"Portsmouth\"\r",
+									"];\r",
+									"\r",
+									"function getRandomCity() {\r",
+									"   const randomCityIndex = Math.floor(Math.random() * randomCities.length);\r",
+									"   return randomCities[randomCityIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"City\", getRandomCity());\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "6db80302-de27-4fa3-9488-6dc787a7ef4b"
+							}
+						}
+					],
+					"id": "94439284-0381-430a-bc8b-7cf81e48d561",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": 13,\r\n    \"data\": [\r\n        {\r\n            \"profile_image\": null,\r\n            \"first_name\": \"{{Admin-firstname}}\",\r\n            \"last_name\": \"Admin\",\r\n            \"email\": \"{{Admin-email}}\",\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{City}}\",\r\n            \"country_id\": 1,\r\n            \"language_id\": null,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"payment_method_id\": 5,\r\n            \"invoice_frequency_id\": null,\r\n            \"status\": null,\r\n            \"user_tags_id\": \"\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}user/form_submit"
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"Admin_ID\", responseJson.data[0]['id']);\r",
+									"postman.setEnvironmentVariable(\"Admin-mail\", responseJson.data[0]['email']);"
+								],
+								"type": "text/javascript",
+								"id": "2b09ea05-4475-463a-ba71-5b8fab585ddc"
+							}
+						}
+					],
+					"id": "34215cf4-38f4-49c0-9140-765442e4af81",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Admin_refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}/user/list/user_management"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"id": "a373db43-79e3-43fd-9569-e10e2dd74477"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Function to generate a random string matching the pattern\r",
+									"function generateRandomString() {\r",
+									"    const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ';\r",
+									"    let randomString = '';\r",
+									"    const stringLength = 10; // Adjust the length as needed\r",
+									"\r",
+									"    for (let i = 0; i < stringLength; i++) {\r",
+									"        const randomIndex = Math.floor(Math.random() * characters.length);\r",
+									"        randomString += characters.charAt(randomIndex);\r",
+									"    }\r",
+									"\r",
+									"    return randomString;\r",
+									"}\r",
+									"\r",
+									"// Generate a random string and set it in globals\r",
+									"const firstName = generateRandomString();\r",
+									"pm.globals.set('first_name', firstName);\r",
+									"const lastName = generateRandomString();\r",
+									"pm.globals.set('last_name', lastName);\r",
+									"// Function to generate a unique random email address\r",
+									"function generateUniqueRandomEmail() {\r",
+									"    const domains = ['gmail.com', 'test.com', 'random.org', 'demo.net'];\r",
+									"    const randomDomain = domains[Math.floor(Math.random() * domains.length)];\r",
+									"    const randomString = generateRandomString(); // Reuse the previous function\r",
+									"\r",
+									"    // Create a unique email address by appending a timestamp\r",
+									"    const timestamp = new Date().getTime();\r",
+									"    const uniqueEmail = `${randomString}_${timestamp}@${randomDomain}`;\r",
+									"\r",
+									"    return uniqueEmail;\r",
+									"}\r",
+									"\r",
+									"// Generate a unique random email address and set it in globals\r",
+									"const uniqueRandomEmail = generateUniqueRandomEmail();\r",
+									"pm.globals.set('email', uniqueRandomEmail);\r",
+									"function generateRandomUKPostalCode() {\r",
+									"  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';\r",
+									"  const firstPart = `${letters.charAt(Math.floor(Math.random() * letters.length))}${Math.floor(Math.random() * 10)}`;\r",
+									"  const secondPart = `${Math.floor(Math.random() * 10)}${letters.charAt(Math.floor(Math.random() * letters.length))}`;\r",
+									"  const space = ' ';\r",
+									"  const thirdPart = `${Math.floor(Math.random() * 10)}`;\r",
+									"  const fourthPart = `${letters.charAt(Math.floor(Math.random() * letters.length))}`;\r",
+									"  \r",
+									"  const randomUKPostalCode = `${firstPart}${space}${secondPart}${thirdPart}${fourthPart}`;\r",
+									"  \r",
+									"  return randomUKPostalCode;\r",
+									"}\r",
+									" \r",
+									"const randomUKPostalCode = generateRandomUKPostalCode();\r",
+									"pm.variables.set(\"postcode\", randomUKPostalCode);\r",
+									"function generateRandomPhoneNumber() {\r",
+									"  let randomPhone = \"+44 \";\r",
+									"  const phoneNumberLength = 10;\r",
+									" \r",
+									"  for (let i = 0; i < phoneNumberLength; i++) {\r",
+									"    randomPhone += Math.floor(Math.random() * 10);\r",
+									"  }\r",
+									" \r",
+									"  return randomPhone;\r",
+									"}\r",
+									" \r",
+									"const randomPhoneNumber = generateRandomPhoneNumber();\r",
+									"pm.variables.set(\"phone\", randomPhoneNumber);\r",
+									"// Random Address\r",
+									"const pattern = /^[a-zA-Z0-9]+(?:[a-zA-Z0-9]*[a-zA-Z0-9])?$/;\r",
+									"function generateRandomAddress() {\r",
+									"  const validCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,&\\'/\\\\s-';\r",
+									"  const addressLength = 30;\r",
+									"  let randomAddress = '';\r",
+									" \r",
+									"  for (let i = 0; i < addressLength; i++) {\r",
+									"    const randomChar = validCharacters.charAt(Math.floor(Math.random() * validCharacters.length));\r",
+									"    randomAddress += randomChar;\r",
+									"  }\r",
+									" \r",
+									"  return randomAddress;\r",
+									"}\r",
+									"function isValidAddress(address) {\r",
+									"  return pattern.test(address);\r",
+									"}\r",
+									"let randomAddress = generateRandomAddress();\r",
+									"while (!isValidAddress(randomAddress)) {\r",
+									"  randomAddress = generateRandomAddress();\r",
+									"}\r",
+									"pm.variables.set('address', randomAddress);\r",
+									"\r",
+									"function generateRandomAddress1() {\r",
+									"  const validCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,&\\'/\\\\s-';\r",
+									"  const addressLength = 30;\r",
+									"  let randomAddress1 = '';\r",
+									" \r",
+									"  for (let i = 0; i < addressLength; i++) {\r",
+									"    const randomChar = validCharacters.charAt(Math.floor(Math.random() * validCharacters.length));\r",
+									"    randomAddress1 += randomChar;\r",
+									"  }\r",
+									" \r",
+									"  return randomAddress1;\r",
+									"}\r",
+									"function isValidAddress(address1) {\r",
+									"  return pattern.test(address1);\r",
+									"}\r",
+									"let randomAddress1 = generateRandomAddress1();\r",
+									"while (!isValidAddress(randomAddress1)) {\r",
+									"  randomAddress1 = generateRandomAddress1();\r",
+									"}\r",
+									"pm.variables.set('address1', randomAddress1);\r",
+									"\r",
+									"function generateRandomName() {\r",
+									"  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';\r",
+									"  const nameLength = Math.floor(Math.random() * 10) + 5; // Generates a name with 5 to 14 characters\r",
+									"  let randomName = '';\r",
+									" \r",
+									"  for (let i = 0; i < nameLength; i++) {\r",
+									"    const randomIndex = Math.floor(Math.random() * alphabet.length);\r",
+									"    randomName += alphabet.charAt(randomIndex);\r",
+									"  }\r",
+									" \r",
+									"  return randomName;\r",
+									"}\r",
+									" \r",
+									"const randomName = generateRandomName();\r",
+									"pm.globals.set(\"city\", randomName);"
+								],
+								"type": "text/javascript",
+								"id": "86ef952d-cdd0-403f-8ea4-3bc1bbe2349d"
+							}
+						}
+					],
+					"id": "9f49f97b-b4c1-4d9e-975d-e36e67d8c6b0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\": {{Admin_ID}},\r\n            \"profile_image\": \"https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg\",\r\n            \"first_name\": \"{{Admin-firstname}}\",\r\n            \"last_name\": \"Admin\",\r\n            \"email\": \"{{Admin-mail}}\",\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{City}}\",\r\n            \"country_id\": 1,\r\n            \"language_id\": null,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"payment_method_id\": 5,\r\n            \"invoice_frequency_id\": null,\r\n            \"status\": 1,\r\n            \"user_tags_id\": \"\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}user/form_submit?form_id=13",
+							"host": [
+								"{{Url}}user"
+							],
+							"path": [
+								"form_submit"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "820bba6b-c41c-483c-92c9-5cc5fb4b37a5"
+		},
+		{
+			"name": "Beneficiary",
+			"item": [
+				{
+					"name": "structure",
+					"id": "2c600e07-adc2-4496-b75f-6172d1c6b60f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{url}}/user/form-structure/fields/my_beneficiary"
+					},
+					"response": []
+				},
+				{
+					"name": "form_submit",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Function to generate a random UUID (v4)\r",
+									"function generateUUID() {\r",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+									"        var r = Math.random() * 16 | 0,\r",
+									"            v = c === 'x' ? r : (r & 0x3 | 0x8);\r",
+									"        return v.toString(16);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Set the generated UUID as an environment variable\r",
+									"pm.environment.set(\"random_uuid\", generateUUID());\r",
+									"\r",
+									"const petNames = [\r",
+									"    \"Max\", \"Bella\", \"Charlie\", \"Luna\", \"Cooper\", \"Daisy\", \"Buddy\", \"Lucy\", \"Rocky\", \"Molly\",\r",
+									"    \"Bailey\", \"Sadie\", \"Toby\", \"Chloe\", \"Jack\", \"Sophie\", \"Duke\", \"Rosie\", \"Riley\", \"Zoe\"\r",
+									"];\r",
+									"\r",
+									"// Function to get a random pet name\r",
+									"function getRandomPetName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * petNames.length);\r",
+									"    return petNames[randomIndex];\r",
+									"}\r",
+									"\r",
+									"// Set the random pet name as an environment variable\r",
+									"pm.environment.set(\"random_pet_name\", getRandomPetName());\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "22ed48ec-7273-4466-a108-6474bbc9f937"
+							}
+						}
+					],
+					"id": "b5bb69b7-0d22-4cf9-96dc-d9719fe736ed",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": 7,\r\n    \"data\": [\r\n        {\r\n           \"parent_id\": 1013,\r\n            \"uuid\": \"{{random_uuid}}\",\r\n            \"first_name\": \"{{random_pet_name}}\",\r\n            \"profile_image\": null,\r\n            \"parent_uuid\": \"{{random_uuid}}\",\r\n            \"dob\": \"2015-03-12\",\r\n            \"gender_id\": 1,\r\n            \"pet_type\": null,\r\n            \"size\": null,\r\n            \"dog_lead\":1,\r\n            \"is_suspended\":0,\r\n            \"subtype_id\": \"1\",\r\n            \"behaviour_id\": [1,2,3],\r\n            \"dietary_issues\": null,\r\n            \"allergies\": null,\r\n            \"vet_name\": \"null\",\r\n            \"vet_address\": \"null\",\r\n            \"vet_phone\": \"\",\r\n            \"microchip_id\": null,\r\n            \"emergency_contact_name\": null,\r\n            \"emergency_contact_phone\": null,\r\n            \"special_instructions\": null,\r\n            \"feeding_schedules\": null,\r\n            \"additional_contacts\": null,\r\n            \"medical_records\": null,\r\n            \"latest_vaccination_date\": \"2015-03-12\",\r\n            \"next_vaccine_date\": \"2015-03-12\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}/user/form_submit"
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"beneficiary_ID\", responseJson.data[0]['id']);"
+								],
+								"type": "text/javascript",
+								"id": "33b31ab4-4b1c-45d8-8a5f-b1d821fd60bc"
+							}
+						}
+					],
+					"id": "386c0056-d563-4fe1-98ba-fca0f13237c2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}user/list/beneficiary"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Function to generate a random UUID (v4)\r",
+									"function generateUUID() {\r",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+									"        var r = Math.random() * 16 | 0,\r",
+									"            v = c === 'x' ? r : (r & 0x3 | 0x8);\r",
+									"        return v.toString(16);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Set the generated UUID as an environment variable\r",
+									"pm.environment.set(\"random_uuid\", generateUUID());\r",
+									"\r",
+									"const petNames = [\r",
+									"    \"Max\", \"Bella\", \"Charlie\", \"Luna\", \"Cooper\", \"Daisy\", \"Buddy\", \"Lucy\", \"Rocky\", \"Molly\",\r",
+									"    \"Bailey\", \"Sadie\", \"Toby\", \"Chloe\", \"Jack\", \"Sophie\", \"Duke\", \"Rosie\", \"Riley\", \"Zoe\"\r",
+									"];\r",
+									"\r",
+									"// Function to get a random pet name\r",
+									"function getRandomPetName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * petNames.length);\r",
+									"    return petNames[randomIndex];\r",
+									"}\r",
+									"\r",
+									"// Set the random pet name as an environment variable\r",
+									"pm.environment.set(\"random_pet_name\", getRandomPetName());\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "cf8bd86e-8798-4951-9f9b-3b5ad87f9103"
+							}
+						}
+					],
+					"id": "acc92298-377e-4db7-b498-3b480dc741aa",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subscriber_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"id\":{{beneficiary_ID}},\r\n            \"parent_id\":1013,\r\n            \"uuid\": \"{{random_uuid}}\",\r\n            \"first_name\": \"{{random_pet_name}}\",\r\n            \"profile_image\": null,\r\n            \"parent_uuid\": \"{{random_uuid}}\",\r\n            \"dob\": \"2015-03-12\",\r\n            \"gender_id\": 1,\r\n            \"pet_type\": null,\r\n            \"size\": null,\r\n            \"dog_lead\":1,\r\n            \"is_suspended\":0,\r\n            \"subtype_id\": \"1\",\r\n            \"behaviour_id\": [1,2,3],\r\n            \"dietary_issues\": null,\r\n            \"allergies\": null,\r\n            \"vet_name\": \"null\",\r\n            \"vet_address\": \"null\",\r\n            \"vet_phone\": \"\",\r\n            \"microchip_id\": null,\r\n            \"emergency_contact_name\": null,\r\n            \"emergency_contact_phone\": null,\r\n            \"special_instructions\": null,\r\n            \"feeding_schedules\": null,\r\n            \"additional_contacts\": null,\r\n            \"medical_records\": null,\r\n            \"latest_vaccination_date\": \"2015-03-12\",\r\n            \"next_vaccine_date\": \"2015-03-12\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}user/form_submit?form_id=3",
+							"host": [
+								"{{Url}}user"
+							],
+							"path": [
+								"form_submit"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "d906c7b2-fcf6-4c8b-bce7-200b4a72d690",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{refresh_token1}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "76167b8d-1e52-45ee-bdf9-7a3f53363a1b"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "07755ef3-a347-4b76-93d9-319e894b4ede"
+					}
+				}
+			]
+		},
+		{
+			"name": "Staff",
+			"item": [
+				{
+					"name": "form-structure",
+					"id": "9036c4a6-5bbb-40fc-a7a0-8c76639674fe",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}calendar/form-structure/fields/staff"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Staff",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// List of names\r",
+									"const names = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// List of domain names\r",
+									"const domains = [\"gmail.com\", \"agilecyber.com\", \"agilecybersolutions.com\"];\r",
+									" \r",
+									"// Function to generate a unique email with random 5-digit number\r",
+									"function generateUniqueEmail() {\r",
+									"    const randomIndexName = Math.floor(Math.random() * names.length);\r",
+									"    const randomName = names[randomIndexName].toLowerCase();\r",
+									"    \r",
+									"    const randomIndexDomain = Math.floor(Math.random() * domains.length);\r",
+									"    const randomDomain = domains[randomIndexDomain];\r",
+									" \r",
+									"    const uniqueIdentifier = Math.floor(10000 + Math.random() * 90000); // Generate random 5-digit number\r",
+									" \r",
+									"    return `${randomName}_${uniqueIdentifier}@${randomDomain}`;\r",
+									"}\r",
+									" \r",
+									"// Set the unique email as a variable\r",
+									"pm.variables.set(\"Staff-email\", generateUniqueEmail());\r",
+									" \r",
+									" \r",
+									"//Firstname\r",
+									"// List of first names\r",
+									"const firstNames = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// Function to get a random first name\r",
+									"function getRandomFirstName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * firstNames.length);\r",
+									"    return firstNames[randomIndex];\r",
+									"}\r",
+									" \r",
+									"// Set the random first name as a variable\r",
+									"pm.variables.set(\"Staff-firstname\", getRandomFirstName());\r",
+									" \r",
+									"//Lastname\r",
+									"// List of last names\r",
+									"const lastNames = [\r",
+									"    \"Jones\", \"Williams\", \"Taylor\", \"Brown\",\r",
+									"    \"Davies\", \"Evans\", \"Patel\", \"Wilson\", \"Johnson\",\r",
+									"    \"Singh\", \"Wright\", \"Robinson\", \"Thompson\", \"White\",\r",
+									"    \"Walker\", \"Hall\", \"Green\"\r",
+									"];\r",
+									" \r",
+									"// Function to get a random last name\r",
+									"function getRandomLastName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * lastNames.length);\r",
+									"    return lastNames[randomIndex];\r",
+									"}\r",
+									" \r",
+									"// Set the random last name as a variable\r",
+									"pm.variables.set(\"Staff-lastname\", getRandomLastName());\r",
+									"\r",
+									"\r",
+									"const randomPostcodes = [\r",
+									"    \"AB1 2CD\", \"EF3 4GH\", \"IJ5 6KL\", \"MN7 8OP\", \"QR9 0ST\", \"UV1 2WX\", \"YZ3 4AB\",\r",
+									"    \"BC6 7DE\", \"GH8 9IJ\", \"KL0 1MN\", \"OP2 3QR\", \"ST4 5UV\", \"WX6 7YZ\", \"DE8 9FG\",\r",
+									"    \"IJ0 1KL\", \"MN2 3OP\", \"QR4 5ST\", \"UV6 7WX\", \"YZ8 9AB\", \"FG0 1IJ\", \"KL3 4MN\",\r",
+									"    \"OP5 6QR\", \"ST7 8UV\", \"WX9 0YZ\", \"AB2 3CD\", \"DE4 5FG\", \"IJ6 7KL\", \"MN8 9OP\",\r",
+									"    \"QR1 2ST\", \"UV3 4WX\"\r",
+									"];\r",
+									" \r",
+									"function getRandomPostal() {\r",
+									"    const randomIndex = Math.floor(Math.random() * randomPostcodes.length);\r",
+									"    return randomPostcodes[randomIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"postcode\", getRandomPostal());\r",
+									"\r",
+									"\r",
+									"function generateRandomName() {\r",
+									"  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';\r",
+									"  const nameLength = Math.floor(Math.random() * 10) + 5; // Generates a name with 5 to 14 characters\r",
+									"  let randomName = '';\r",
+									"\r",
+									"  for (let i = 0; i < nameLength; i++) {\r",
+									"    const randomIndex = Math.floor(Math.random() * alphabet.length);\r",
+									"    randomName += alphabet.charAt(randomIndex);\r",
+									"  }\r",
+									"\r",
+									"  return randomName;\r",
+									"}\r",
+									"\r",
+									"const randomName = generateRandomName();\r",
+									"pm.globals.set(\"city\", randomName);\r",
+									"\r",
+									"\r",
+									"\r",
+									"const randomDigits = [\r",
+									"    \"9876543210\", \"8765432109\", \"7654321098\", \"6543210987\", \"5432109876\", \"4321098765\", \"3210987654\"\r",
+									"];\r",
+									"\r",
+									"// Function to generate a random set of 7 digits for the phone number\r",
+									"function getRandomPhoneNumber() {\r",
+									"    const randomDigit = Math.floor(Math.random() * randomDigits.length);\r",
+									"    return randomDigits[randomDigit];\r",
+									"}\r",
+									"\r",
+									"// Set the random UK phone number as a variable\r",
+									"pm.variables.set(\"phone\", `44${getRandomPhoneNumber()}`);\r",
+									"\r",
+									"\r",
+									"const randomHouseNames = [\r",
+									"    \"Rose Cottage\", \"Oak View House\", \"Meadowcroft\", \"The Pines\", \"Riverside Manor\",\r",
+									"    \"Elmwood Lodge\", \"Ivy Cottage\", \"Sunnyside Retreat\", \"Willow House\", \"Cedar Haven\",\r",
+									"    \"Maple Mansion\", \"Sunset Villa\", \"Riverbank House\", \"Cherry Blossom Cottage\", \"Lakeside Lodge\",\r",
+									"    \"Hilltop Haven\", \"Cedar Retreat\", \"Rosewood Residence\", \"Ivy Lane Cottage\", \"Forest View House\",\r",
+									"    \"Alder Manor\", \"Beechwood House\", \"Juniper Retreat\", \"Magnolia Mansion\", \"Winding Way Cottage\",\r",
+									"    \"Harbor View House\", \"Greenwood Cottage\", \"Silver Oak Residence\"\r",
+									"];\r",
+									"\r",
+									"function getRandomHouse() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomHouseNames.length);\r",
+									"    return randomHouseNames[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address\", getRandomHouse());\r",
+									"\r",
+									"// Random Address\r",
+									"\r",
+									"const randomStreets = [\r",
+									"    \"High Street\", \"Main Street\", \"Park Avenue\", \"Maple Street\", \"Oak Avenue\",\r",
+									"    \"Chestnut Lane\", \"Willow Road\", \"Pine Drive\", \"Elm Street\", \"Birch Lane\",\r",
+									"    \"Meadow Lane\", \"Sunset Boulevard\", \"River Road\", \"Sycamore Avenue\", \"Cherry Lane\",\r",
+									"    \"Lakeside Drive\", \"Hillcrest Avenue\", \"Cedar Street\", \"Rosewood Lane\", \"Ivy Lane\",\r",
+									"    \"Forest Avenue\", \"Alder Road\", \"Beech Street\", \"Juniper Lane\", \"Magnolia Drive\",\r",
+									"    \"Winding Way\", \"Harbor View\", \"Greenwood Avenue\", \"Silver Oak Lane\"\r",
+									"];\r",
+									"\r",
+									"function getRandomStreet() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomStreets.length);\r",
+									"    return randomStreets[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address1\", getRandomStreet());\r",
+									"\r",
+									"\r",
+									"const randomStaff = [\r",
+									"    \"AB12\", \"EF34\", \"IJ56\", \"MN78\", \"QR90\", \"UV12\", \"YZ34\",\r",
+									"    \"BC67\", \"GH89\", \"KL01\", \"OP23\", \"ST45\", \"WX67\", \"DE89\",\r",
+									"    \"IJ11\", \"MN23\", \"QR45\", \"UV67\", \"YZ89\", \"FG01\", \"KL34\",\r",
+									"    \"OP56\", \"ST78\", \"WX90\", \"AB23\", \"DE45\", \"IJ67\", \"MN89\",\r",
+									"    \"QR12\", \"UV34\"\r",
+									"];\r",
+									" \r",
+									"function getRandomStaffCode() {\r",
+									"    const randomIndex = Math.floor(Math.random() * randomStaff.length);\r",
+									"    return randomStaff[randomIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"staff_code\", getRandomStaffCode());\r",
+									"\r",
+									"\r",
+									"\r",
+									"const city = [\r",
+									"    \"Birmingham\",\"Bradford\",\"Brighton & Hove\",\"Bristol\",\"Cambridge\",\"Cambridge\",\"Canterbury\",\"Carlisle\",\"Chelmsford\",\"Chester\",\"Chichester\",\"Colchester\",\"Coventry\",\"Derby\",\"Doncaster\",\"Durham\",\"Kingston\",\"Gloucester\",\"Hereford\",\r",
+									"\"York\",\"Lancaster\",\"Leeds\",\"Leicester\",\"Lichfield\", \"Lincoln\", \"Liverpool\", \"London\",\"Manchester\"\r",
+									"\r",
+									"\r",
+									"];\r",
+									" \r",
+									"// Function to get a random first name\r",
+									"function getRandomcity() {\r",
+									"    const randomIndex = Math.floor(Math.random() * city.length);\r",
+									"    return city[randomIndex];\r",
+									"}\r",
+									" \r",
+									"// Set the random first name as a variable\r",
+									"pm.variables.set(\"city\", getRandomcity());\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "f0a81bba-008a-4c8b-bc0c-9d065e6f497a"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"id": "aa0765df-facb-48cd-a3c9-3c8940fdac7d"
+							}
+						}
+					],
+					"id": "e6a724fe-65a4-483d-8d55-3221d17ea1cb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"profile_image\": \"https://staging-booking.agilecyber.com/files/files/1/calender/download (1) (3).jpeg\",\r\n            \"email\": \"{{Staff-email}}\",\r\n            \"first_name\": \"{{Staff-firstname}}\",\r\n            \"last_name\": \"{{Staff-lastname}}\",\r\n            \"staff_id\": \"{{staff_code}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"alternate_phone_number\": \"44 1234567467\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{city}}\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"service_id\": [{{Service_id}}]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}calendar/form_submit"
+					},
+					"response": []
+				},
+				{
+					"name": "List of Staffs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"STAFF_ID\", responseJson.data[0][\"id\"]);\r",
+									"postman.setEnvironmentVariable(\"email\", responseJson.data[0][\"email\"]);\r",
+									"postman.setEnvironmentVariable(\"staff\", responseJson.data[0][\"staff\"]);\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "8bfe5cfd-d1ff-4c26-8cde-e959bae38a95"
+							}
+						}
+					],
+					"id": "937bdf07-d0f2-47b2-b6a9-a0c05f7ee0f2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}calendar/list/staff"
+					},
+					"response": []
+				},
+				{
+					"name": "Update the staff",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"id": "3add69fb-ae28-4df5-a3ac-e339ca0092ca"
+							}
+						}
+					],
+					"id": "519a4ce5-28f0-4ad8-9659-6bf775e0bf9f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"data\": [\r\n        {   \"id\": \"{{STAFF_ID}}\",\r\n            \"profile_image\": \"https://dev-booking.agilecyber.com/files/files/1/user/Screenshot 2023-11-08 123214.png\",\r\n             \"email\": \"{{email}}\",\r\n            \"first_name\": \"{{firstname}}\",\r\n            \"last_name\": \"{{lastname}}\",\r\n            \"staff_id\": \"{{staff}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"+44123456789\",\r\n            \"alternate_phone_number\": \"+44123456789\",\r\n            \"address_1\": \"76c\",\r\n            \"address_2\": \"1332\",\r\n            \"city\": \"city\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"DR5 0RT\",\r\n            \"service_id\": [\r\n                36\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}calendar/form_submit?form_id=1",
+							"host": [
+								"{{Url}}calendar"
+							],
+							"path": [
+								"form_submit"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "0949ce5e-d547-431b-a0dd-c63c992324b9",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{Admin_refresh_token1}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "3a1e47bb-cff5-40ee-a8df-5c0e6201dca5"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "2597507b-4605-4d6a-b77d-cf8ac4aaf2ba"
+					}
+				}
+			]
+		},
+		{
+			"name": "User  Booking",
+			"item": [
+				{
+					"name": "structure",
+					"id": "ac1da43d-e786-40c7-963b-7d7e805de6f8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}booking/structure/regular_booking"
+					},
+					"response": []
+				},
+				{
+					"name": "create regular booking",
+					"id": "e9e09344-551b-4825-bfbd-06cc7498376d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subscriber_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"beneficiary_id\": {{beneficiary_ID}},\r\n            \"service_id\":{{Service_id}},\r\n            \"booking_type_id\":1,\r\n            \"booking_date\": [\r\n                {\r\n                    \"date\": \"2023-12-18\",\r\n                    \"slot_id\": {{Slot_id}}\r\n                }\r\n            ],\r\n            \"notes\": \"Celebrating a special occasion—any surprises welcome! Happy bookings\",\r\n            \"booking_group_id\": null\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}booking/regular_booking"
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"Booking_ID\", responseJson.data[0][\"id\"]);"
+								],
+								"type": "text/javascript",
+								"id": "1c1f2e2c-ba3d-406e-9f99-322cf5d1e149"
+							}
+						}
+					],
+					"id": "c8860f61-cda6-4ad8-a1ef-502a3d0465b8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}/booking/my_bookings"
+					},
+					"response": []
+				},
+				{
+					"name": "status list API",
+					"id": "9d698c25-30d4-4179-bc10-75ebdaf41a4f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}booking/status"
+					},
+					"response": []
+				},
+				{
+					"name": "Create multiple booking",
+					"id": "8a5b16a6-ad8c-49da-96cc-f46afe838d2c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subscriber_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"beneficiary_id\": {{beneficiary_ID}},\r\n            \"service_id\": {{Service_id}},\r\n            \"booking_type_id\": {{Booking_ID}},\r\n            \"booking_date\": [\r\n                {\r\n                    \"date\": \"2023-12-10\",\r\n                    \"slot_id\": 69\r\n                },\r\n                {\r\n                    \"date\": \"2023-12-09\",\r\n                    \"slot_id\": {{Slot_id}}\r\n                }\r\n            ],\r\n            \"notes\": \"\",\r\n            \"booking_group_id\": null\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}booking/regular_booking"
+					},
+					"response": []
+				},
+				{
+					"name": "Previous",
+					"id": "753fc5d6-e6ff-4b5b-a8ed-2f6b4fd5c541",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url}}booking/my_bookings?filter_type=\"previous\"",
+							"host": [
+								"{{Url}}booking"
+							],
+							"path": [
+								"my_bookings"
+							],
+							"query": [
+								{
+									"key": "filter_type",
+									"value": "\"previous\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Next",
+					"id": "7cba10a1-6c5d-4e10-b958-4aea8b44148e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url}}booking/my_bookings?filter_type=\"upcoming\"",
+							"host": [
+								"{{Url}}booking"
+							],
+							"path": [
+								"my_bookings"
+							],
+							"query": [
+								{
+									"key": "filter_type",
+									"value": "\"upcoming\""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "1c81a7b7-b7ba-41ba-93a9-77392451de56",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{refresh_token1}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "a5c8ae47-c5a5-436b-a5c5-7560289d172e"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "ed536efd-e9e4-4014-b11d-d43f60848a4e"
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin Booking",
+			"item": [
+				{
+					"name": "List",
+					"id": "84f7b9dc-dd13-4ed4-abca-038e133f4f83",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}/booking/list/bookings"
+					},
+					"response": []
+				},
+				{
+					"name": "List by status",
+					"id": "7e27923b-bb00-4604-a84e-3c39b953942f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url}}booking/list/bookings?status=assigned",
+							"host": [
+								"{{Url}}booking"
+							],
+							"path": [
+								"list",
+								"bookings"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "assigned"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Booking Aproved",
+					"id": "14e032ba-26fd-4b0e-8814-b6eb023b252e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"booking_id\": {{Booking_ID}},\r\n    \"status\": \"Approved\",\r\n   \"staff_id\": \"{{STAFF_ID}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}/booking/status_update"
+					},
+					"response": []
+				},
+				{
+					"name": "List by service",
+					"id": "2c8463b9-d1e2-4818-b324-941108ed824a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url}}booking/list/bookings?service={{Service_id}}",
+							"host": [
+								"{{Url}}booking"
+							],
+							"path": [
+								"list",
+								"bookings"
+							],
+							"query": [
+								{
+									"key": "service",
+									"value": "{{Service_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List by Date&Slot",
+					"id": "6cfa656f-b802-4fcc-a3a4-9642d149924e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url}}booking/list/bookings?slot={{Slot_id}}",
+							"host": [
+								"{{Url}}booking"
+							],
+							"path": [
+								"list",
+								"bookings"
+							],
+							"query": [
+								{
+									"key": "slot",
+									"value": "{{Slot_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "assign staff",
+					"id": "902c5dda-836d-45f2-9251-3b5503e35a14",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"booking_id\": {{Booking_id}},\r\n    \"status\": \"unassigned\",\r\n    \"staff_id\":{{STAFF_ID}}\r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}booking/status_update"
+					},
+					"response": []
+				},
+				{
+					"name": "Reject",
+					"id": "bc1740bc-6462-4963-904a-5dd54e262128",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Admin_refresh_token1}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"booking_id\" : 16,\r\n    \"status\": \"rejected\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}booking/status_update"
+					},
+					"response": []
+				}
+			],
+			"id": "5d61b79a-51ca-4ab1-a155-9f94654e8978",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{Admin_refresh_token1}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "f4168cab-9496-4da1-9ce7-ee6e698fc2aa"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "44f8514a-b416-4ea5-8b45-9fb6afb6e962"
+					}
+				}
+			]
+		},
+		{
+			"name": "Tag Category",
+			"item": [
+				{
+					"name": "form structure",
+					"id": "dd192b45-cfcf-4d34-855a-6ddaaf7faa14",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{Url}}/user/form-structure/fields/add_tag_category"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									" \r",
+									"\r",
+									" // Function to generate a random UUID (v4)\r",
+									"function generateUUID() {\r",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+									"        var r = Math.random() * 16 | 0,\r",
+									"            v = c === 'x' ? r : (r & 0x3 | 0x8);\r",
+									"        return v.toString(16);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Generate a random UUID\r",
+									"var randomUUID = generateUUID();\r",
+									"\r",
+									"// Log the generated UUID\r",
+									"console.log(\"Generated UUID:\", randomUUID);\r",
+									"\r",
+									"// Set the generated UUID as an environment variable if needed\r",
+									"pm.environment.set(\"Tag_UUID\", randomUUID);\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "1123e31b-49b5-4c5e-aa3b-3b314d81bced"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const categoryNames = [\"dogs\", \"cats\", \"birds\", \"small-mammals\", \"fish\", \"reptiles\", \"amphibians\", \"farm-animals\", \"horses\"];\r",
+									"\r",
+									"// Function to get a random category name\r",
+									"function getRandomCategoryName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * categoryNames.length);\r",
+									"    return categoryNames[randomIndex];\r",
+									"}\r",
+									"\r",
+									"// Set the random category name as a variable in the global environment\r",
+									"postman.setGlobalVariable(\"random_category_name\", getRandomCategoryName());\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "6f0f7eea-a02d-4ade-aa4b-d43c06e85e05"
+							}
+						}
+					],
+					"id": "7b0a9a88-a96e-4a48-9e9c-036552dc5b75",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": 15,\r\n    \"data\": [\r\n        {\r\n            \"category_name\": \"{{random_category_name}}\",\r\n            \"category_type_id\": 1,\r\n            \"allowed_per_entity\": 1,\r\n            \"category_description\": \"Known for their loyalty and companionship, dogs come in various breeds and sizes, suitable for different lifestyles and living environments.\",\r\n            \"uuid\": \"{{Tag_UUID}}\",\r\n            \"subdata\": [\r\n                {\r\n                    \"name\": \"Reptiles and Amphibians\",\r\n                    \"description\": \"Reptiles, including snakes, lizards, turtles, and geckos, have specific care requirements, but they are chosen as pets for their unique appearances and behaviors.\",\r\n                    \"parent_uuid\": \"{{Tag_UUID}}\"\r\n                },\r\n                {\r\n                    \"name\": \"Domestic Pets\",\r\n                    \"description\": \"ndependent and affectionate, cats are popular pets appreciated for their playful behavior and ability to form bonds with their owners.\",\r\n                    \"parent_uuid\": \"{{Tag_UUID}}\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}/user/form_submit"
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"Tag Category_ID\", responseJson.data[0][\"id\"]);"
+								],
+								"type": "text/javascript",
+								"id": "24534bb4-6645-4aa4-b785-9715d73d743f"
+							}
+						}
+					],
+					"id": "3babd645-debe-4ce4-be80-25e5baff0851",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}/user/list/add_tag_category"
+					},
+					"response": []
+				},
+				{
+					"name": "edit",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"id": "9c35eec2-0c0f-4f2b-bbe1-626e1aed2562"
+							}
+						}
+					],
+					"id": "87c03750-0f11-4225-bff9-827ccd0acef6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\": \"{{Tag Category_ID}}\",\r\n            \"category_name\": \"{{random_category_name}}\",\r\n            \"category_type_id\": 1,\r\n            \"allowed_per_entity\": 1,\r\n            \"category_description\": \"Known for their loyalty and companionship, dogs come in various breeds and sizes, suitable for different lifestyles and living environments.\",\r\n            \"uuid\": \"{{Tag_UUID}}\",\r\n            \"subdata\": [\r\n                {\r\n                    \"name\": \"Reptiles and Amphibians\",\r\n                    \"description\": \"Reptiles, including snakes, lizards, turtles, and geckos, have specific care requirements, but they are chosen as pets for their unique appearances and behaviors.\",\r\n                    \"parent_uuid\": \"{{Tag_UUID}}\"\r\n                },\r\n                {\r\n                    \"name\": \"Domestic Pets\",\r\n                    \"description\": \"ndependent and affectionate, cats are popular pets appreciated for their playful behavior and ability to form bonds with their owners.\",\r\n                    \"parent_uuid\": \"{{Tag_UUID}}\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}/user/form_submit?form_id=15",
+							"host": [
+								"{{Url}}"
+							],
+							"path": [
+								"user",
+								"form_submit"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "fc0e5390-5bd9-46e1-9daf-40074924bcee"
+		},
+		{
+			"name": "Delete",
+			"item": [
+				{
+					"name": "Services delete",
+					"id": "131f0917-06d7-4492-8017-e40262d13dd4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\" : [{{Service_id}}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}user/form_submit/bulk?form_id=1",
+							"host": [
+								"{{Url}}user"
+							],
+							"path": [
+								"form_submit",
+								"bulk"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete time slot",
+					"id": "352baa28-d396-4a0c-a139-8f249f35013b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\" : [{{Slot_id}}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}user/form_submit/bulk?form_id=2",
+							"host": [
+								"{{Url}}user"
+							],
+							"path": [
+								"form_submit",
+								"bulk"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer delete",
+					"id": "db35aced-66b2-4780-910c-b3e8557894f8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\": [{{Admin_ID}}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}user/form_submit/bulk?form_id=13",
+							"host": [
+								"{{Url}}user"
+							],
+							"path": [
+								"form_submit",
+								"bulk"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Beneficiary delete",
+					"id": "7ff9975a-e5bd-4330-8f6b-c30449165cb4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\" : [{{beneficiary_ID}}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}user/form_submit/bulk?form_id=3",
+							"host": [
+								"{{Url}}user"
+							],
+							"path": [
+								"form_submit",
+								"bulk"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Staff Delete",
+					"id": "e7c22383-5f5b-41ba-87fd-6401222f1b1f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\": [\r\n        \"{{STAFF_ID}}\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}calender/form_submit/bulk?form_id=1",
+							"host": [
+								"{{Url}}calender"
+							],
+							"path": [
+								"form_submit",
+								"bulk"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User reject",
+					"id": "1bf06783-f24e-41e7-ae41-f88b84773a2d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": "{{Url}}user/{{user_ID}}/role/approve"
+					},
+					"response": []
+				},
+				{
+					"name": "Tag Category Delete",
+					"id": "87de8cdb-e03e-4909-8f7f-aaa485eeefbb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\" : [{{Tag Category_ID}}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}user/form_submit/bulk?form_id=15",
+							"host": [
+								"{{Url}}user"
+							],
+							"path": [
+								"form_submit",
+								"bulk"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "02424a3e-341e-4d90-b417-8079b31a8da1"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "686c5e14-ecdc-4d11-9e2f-bc16c12ec7fa"
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "d28d33d8-de6d-497c-845b-4f9d3224a988"
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://postman-echo.com",
+			"type": "string"
+		}
+	]
+}
