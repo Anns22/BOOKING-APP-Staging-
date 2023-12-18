@@ -1961,7 +1961,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{url}}/user/form-structure/fields/my_beneficiary"
+						"url": "{{Url}}/user/form-structure/fields/my_beneficiary"
 					},
 					"response": []
 				},
