@@ -4184,7 +4184,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ids\": [{{Admin_ID}}]\r\n}",
+							"raw": "{\r\n    \"ids\": [{{user_ID_delete}}]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
