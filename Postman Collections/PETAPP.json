@@ -3238,13 +3238,19 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"var data = JSON.parse(responseBody);\r",
 									"\r",
-									"var responseJson = JSON.parse(responseBody);\r",
 									"\r",
-									"postman.setEnvironmentVariable(\"STAFF_ID\", responseJson.data[0][\"id\"]);\r",
-									"postman.setEnvironmentVariable(\"email\", responseJson.data[0][\"email\"]);\r",
-									"postman.setEnvironmentVariable(\"staff\", responseJson.data[0][\"staff\"]);"
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.globals.set(\"STAFF_ID\", data.data[0][\"id\"]);\r",
+									"pm.globals.set(\"Staff_email\", data.data[0][\"email\"]);\r",
+									"pm.globals.set(\"staff_code\", data.data[0][\"staff_id\"]);\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.globals.set(\"Staff_first_name\", data.data[0][\"first_name\"]);\r",
+									"pm.globals.set(\"Staff_last_name\", data.data[0][\"last_name\"]);\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -3286,7 +3292,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \r\n    \"data\": [\r\n        {   \"id\": \"{{STAFF_ID}}\",\r\n            \"profile_image\": \"https://dev-booking.agilecyber.com/files/files/1/user/Screenshot 2023-11-08 123214.png\",\r\n             \"email\": \"{{email}}\",\r\n            \"first_name\": \"{{firstname}}\",\r\n            \"last_name\": \"{{lastname}}\",\r\n            \"staff_id\": \"{{staff}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"+44123456789\",\r\n            \"alternate_phone_number\": \"+44123456789\",\r\n            \"address_1\": \"76c\",\r\n            \"address_2\": \"1332\",\r\n            \"city\": \"city\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"DR5 0RT\",\r\n            \"service_id\": [{{Service_id}}]\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n   \r\n    \"data\": [\r\n        {   \"id\": \"{{STAFF_ID}}\",\r\n            \"profile_image\": \"https://dev-booking.agilecyber.com/files/files/1/user/Screenshot 2023-11-08 123214.png\",\r\n             \"email\": \"{{Staff_email}}\",\r\n            \"first_name\": \"{{Staff_first_name}}\",\r\n            \"last_name\": \"{{Staff_last_name}}\",\r\n            \"staff_id\": \"{{staff_code}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"+44123456789\",\r\n            \"alternate_phone_number\": \"+44123456789\",\r\n            \"address_1\": \"76c\",\r\n            \"address_2\": \"1332\",\r\n            \"city\": \"city\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"DR5 0RT\",\r\n            \"service_id\": [{{Service_id}}]\r\n            \r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
