@@ -3236,7 +3236,15 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"STAFF_ID\", responseJson.data[0][\"id\"]);\r",
+									"postman.setEnvironmentVariable(\"email\", responseJson.data[0][\"email\"]);\r",
+									"postman.setEnvironmentVariable(\"staff\", responseJson.data[0][\"staff\"]);"
 								],
 								"type": "text/javascript"
 							}
@@ -3278,7 +3286,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \r\n    \"data\": [\r\n        {   \"id\": \"{{STAFF_ID}}\",\r\n            \"profile_image\": \"https://dev-booking.agilecyber.com/files/files/1/user/Screenshot 2023-11-08 123214.png\",\r\n             \"email\": \"{{email}}\",\r\n            \"first_name\": \"{{firstname}}\",\r\n            \"last_name\": \"{{lastname}}\",\r\n            \"staff_id\": \"{{staff}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"+44123456789\",\r\n            \"alternate_phone_number\": \"+44123456789\",\r\n            \"address_1\": \"76c\",\r\n            \"address_2\": \"1332\",\r\n            \"city\": \"city\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"DR5 0RT\",\r\n            \"service_id\": [\r\n                36\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n   \r\n    \"data\": [\r\n        {   \"id\": \"{{STAFF_ID}}\",\r\n            \"profile_image\": \"https://dev-booking.agilecyber.com/files/files/1/user/Screenshot 2023-11-08 123214.png\",\r\n             \"email\": \"{{email}}\",\r\n            \"first_name\": \"{{firstname}}\",\r\n            \"last_name\": \"{{lastname}}\",\r\n            \"staff_id\": \"{{staff}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"+44123456789\",\r\n            \"alternate_phone_number\": \"+44123456789\",\r\n            \"address_1\": \"76c\",\r\n            \"address_2\": \"1332\",\r\n            \"city\": \"city\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"DR5 0RT\",\r\n            \"service_id\": [{{Service_id}}]\r\n            ]\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4247,49 +4255,6 @@
 								{
 									"key": "form_id",
 									"value": "2"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Service delete",
-					"id": "c8b1eefa-db7c-4535-aadb-8ea58ceb8970",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{Admin_refresh_token1}}"
-							}
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"ids\" : [{{Service_id}}]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{Url}}user/form_submit/bulk?form_id=1",
-							"host": [
-								"{{Url}}user"
-							],
-							"path": [
-								"form_submit",
-								"bulk"
-							],
-							"query": [
-								{
-									"key": "form_id",
-									"value": "1"
 								}
 							]
 						}
