@@ -843,7 +843,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5cd1ec71-9b53-41dd-b746-ee9ea411e9b2",
+								"id": "bb27f30f-c38f-4374-ae78-c6090178a6c4",
 								"exec": [
 									"// Generate a random number between 1 and 100 for cancellation_fee\r",
 									"const cancellationFee = Math.floor(Math.random() * 100) + 1;\r",
@@ -884,7 +884,7 @@
 							}
 						}
 					],
-					"id": "e1fdb825-27d4-47f3-a9ea-eda1dfc54cd0",
+					"id": "67f378d6-0557-4d2e-9ab7-d7df5f528c3a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
