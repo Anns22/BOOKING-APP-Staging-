@@ -1679,7 +1679,7 @@
 								}
 							}
 						},
-						"url": "{{Url}}/user/form_submit"
+						"url": "{{Url}}user/form_submit"
 					},
 					"response": []
 				},
@@ -2876,20 +2876,22 @@
 									"pm.variables.set(\"address1\", getRandomStreet());\r",
 									"\r",
 									"\r",
-									"const randomStaff = [\r",
-									"    \"AB12\", \"EF34\", \"IJ56\", \"MN78\", \"QR90\", \"UV12\", \"YZ34\",\r",
-									"    \"BC67\", \"GH89\", \"KL01\", \"OP23\", \"ST45\", \"WX67\", \"DE89\",\r",
-									"    \"IJ11\", \"MN23\", \"QR45\", \"UV67\", \"YZ89\", \"FG01\", \"KL34\",\r",
-									"    \"OP56\", \"ST78\", \"WX90\", \"AB23\", \"DE45\", \"IJ67\", \"MN89\",\r",
-									"    \"QR12\", \"UV34\"\r",
+									"const newRandomStaff = [\r",
+									"    \"JKL12\", \"MNO34\", \"PQR56\", \"STU78\", \"VWX90\", \"YZA12\", \"BCD34\",\r",
+									"    \"EFG56\", \"HIJ78\", \"KLM90\", \"NOP12\", \"QRS34\", \"TUV56\", \"WXY78\",\r",
+									"    \"ZAB90\", \"CDE12\", \"FGH34\", \"IJK56\", \"LMN78\", \"OPQ90\", \"RST12\",\r",
+									"    \"UVW34\", \"XYZ56\", \"ABC78\", \"DEF90\", \"GHI12\", \"JKL34\", \"MNO56\",\r",
+									"    \"PQR78\", \"STU90\", \"VWX12\", \"YZA34\", \"BCD56\", \"EFG78\", \"HIJ90\",\r",
+									"    \"KLM12\", \"NOP34\", \"QRS56\", \"TUV78\", \"WXY90\", \"ZAB12\", \"CDE34\",\r",
+									"    \"FGH56\", \"IJK78\", \"LMN90\"\r",
 									"];\r",
-									" \r",
-									"function getRandomStaffCode() {\r",
-									"    const randomIndex = Math.floor(Math.random() * randomStaff.length);\r",
-									"    return randomStaff[randomIndex];\r",
+									"\r",
+									"pm.globals.set(\"new_staff_code\", getNewRandomStaffCode());\r",
+									"\r",
+									"function getNewRandomStaffCode() {\r",
+									"    return newRandomStaff[Math.floor(Math.random() * newRandomStaff.length)];\r",
 									"}\r",
 									"\r",
-									"pm.variables.set(\"staff_code\", getRandomStaffCode());\r",
 									"\r",
 									"\r",
 									"\r",
@@ -2935,7 +2937,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"form_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"profile_image\": \"https://staging-booking.agilecyber.com/files/files/1/calender/download (1) (3).jpeg\",\r\n            \"email\": \"{{Staff-email}}\",\r\n            \"first_name\": \"{{Staff-firstname}}\",\r\n            \"last_name\": \"{{Staff-lastname}}\",\r\n            \"staff_id\": \"{{staff_code}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"alternate_phone_number\": \"44 1234567467\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{city}}\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"service_id\": [{{Service_id}}]\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"form_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"profile_image\": \"https://staging-booking.agilecyber.com/files/files/1/calender/download (1) (3).jpeg\",\r\n            \"email\": \"{{Staff-email}}\",\r\n            \"first_name\": \"{{Staff-firstname}}\",\r\n            \"last_name\": \"{{Staff-lastname}}\",\r\n            \"staff_id\": \"{{new_staff_code}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"alternate_phone_number\": \"44 1234567467\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{city}}\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"service_id\": [{{Service_id}}]\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3202,7 +3204,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \r\n    \"data\": [\r\n        {   \"id\": \"{{STAFF_ID}}\",\r\n            \"profile_image\": \"https://staging-booking.agilecyber.com/files/files/1/calender/download (1) (3).jpeg\",\r\n            \"email\": \"{{Staff_email1}}\",\r\n            \"first_name\": \"{{Staff-firstname}}\",\r\n            \"last_name\": \"{{Staff-lastname}}\",\r\n            \"staff_id\": \"IJ56\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"alternate_phone_number\": \"44 1234567467\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{city}}\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"service_id\": [{{Service_id}}]\r\n            \r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n   \r\n    \"data\": [\r\n        {   \"id\": \"{{STAFF_ID}}\",\r\n            \"profile_image\": \"https://staging-booking.agilecyber.com/files/files/1/calender/download (1) (3).jpeg\",\r\n            \"email\": \"{{Staff_email1}}\",\r\n            \"first_name\": \"{{Staff-firstname}}\",\r\n            \"last_name\": \"{{Staff-lastname}}\",\r\n            \"staff_id\": \"{{new_staff_code}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"alternate_phone_number\": \"44 1234567467\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{city}}\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"service_id\": [{{Service_id}}]\r\n            \r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
