@@ -4021,25 +4021,17 @@
 			"item": [
 				{
 					"name": "Beneficiary delete",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "fde8d5e7-3e1c-45ed-b5af-071b776d889d",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
 					"id": "3694b95f-17d4-4779-b677-962814f8769b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -4052,7 +4044,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{Url}}user/form_submit/bulk?form_id=7",
+							"raw": "{{Url}}user/form_submit/bulk?form_id=3",
 							"host": [
 								"{{Url}}user"
 							],
@@ -4063,7 +4055,7 @@
 							"query": [
 								{
 									"key": "form_id",
-									"value": "7"
+									"value": "3"
 								}
 							]
 						}
@@ -4072,20 +4064,6 @@
 				},
 				{
 					"name": "Staff Delete",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "dee73635-174f-4208-a4ff-f7b1ebffe266",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
 					"id": "a90f85d4-4982-4d77-b2fc-a57cc996caf0",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -4094,14 +4072,14 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{Admin_refresh_token}}"
+								"token": "{{Admin_refresh_token1}}"
 							}
 						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ids\": [{{STAFF_ID}}]\r\n}",
+							"raw": "{\r\n    \"ids\": [\r\n        \"{{STAFF_ID}}\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4109,9 +4087,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{Url}}calendar/form_submit/bulk?form_id=1",
+							"raw": "{{Url}}calender/form_submit/bulk?form_id=1",
 							"host": [
-								"{{Url}}calendar"
+								"{{Url}}calender"
 							],
 							"path": [
 								"form_submit",
@@ -4129,47 +4107,25 @@
 				},
 				{
 					"name": "User reject",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "e8dd872b-d459-4b36-a4a1-589166b52e76",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
 					"id": "cdca9d81-209b-4a14-adcb-7e91fe7cb210",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Admin_refresh_token1}}"
+							}
+						},
 						"method": "PATCH",
 						"header": [],
-						"url": "{{Url}}user/{{user_ID}}/role/reject"
+						"url": "{{Url}}user/{{user_ID}}/role/approve"
 					},
 					"response": []
 				},
 				{
 					"name": "Tag Category Delete",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "e34f77b4-0594-4f3f-86ca-c923c6ea423d",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
 					"id": "8b70c4f2-c0eb-43a0-8261-e689599e65be",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -4178,7 +4134,7 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{refresh_token}}"
+								"token": "{{Admin_refresh_token1}}"
 							}
 						},
 						"method": "DELETE",
@@ -4218,11 +4174,17 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Admin_refresh_token1}}"
+							}
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ids\": [{{user_ID_delete}}]\r\n}",
+							"raw": "{\r\n    \"ids\": [{{Admin_ID}}]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4230,7 +4192,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{Url}}user/form_submit/bulk?form_id=2",
+							"raw": "{{Url}}user/form_submit/bulk?form_id=13",
 							"host": [
 								"{{Url}}user"
 							],
@@ -4241,7 +4203,7 @@
 							"query": [
 								{
 									"key": "form_id",
-									"value": "2"
+									"value": "13"
 								}
 							]
 						}
@@ -4307,20 +4269,6 @@
 				},
 				{
 					"name": "Service delete",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "ee985664-0f29-4533-a0b1-63a1190fa75e",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
 					"id": "c8b1eefa-db7c-4535-aadb-8ea58ceb8970",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -4329,14 +4277,14 @@
 						"auth": {
 							"type": "bearer",
 							"bearer": {
-								"token": "{{refresh_token}}"
+								"token": "{{Admin_refresh_token1}}"
 							}
 						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ids\" : [{{Service_id1}}]\r\n}",
+							"raw": "{\r\n    \"ids\" : [{{Service_id}}]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4344,9 +4292,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{Url}}service/form_submit/bulk?form_id=1",
+							"raw": "{{Url}}user/form_submit/bulk?form_id=1",
 							"host": [
-								"{{Url}}service"
+								"{{Url}}user"
 							],
 							"path": [
 								"form_submit",
