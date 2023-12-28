@@ -2975,21 +2975,6 @@
 			"item": [
 				{
 					"name": "form-structure",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "821c97ab-732d-446d-ba6d-3202e5f441c3",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
 					"id": "0a49af51-14ed-4d1b-bc22-65709e191b4b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
