@@ -1162,7 +1162,7 @@
 									"\r",
 									"postman.setEnvironmentVariable(\"Slot_id\", responseJson.data[0]['id']);\r",
 									"postman.setEnvironmentVariable(\"Slot_name\", responseJson.data[0]['name']);\r",
-									"postman.setEnvironmentVariable(\"Slot_id_delete\", responseJson.data[5]['id']);\r",
+									"postman.setEnvironmentVariable(\"Slot_id_delete\", responseJson.data[2]['id']);\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
