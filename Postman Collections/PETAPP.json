@@ -3385,10 +3385,10 @@
 			"name": "Booking",
 			"item": [
 				{
-					"name": "User  Booking Copy",
+					"name": "User  Booking",
 					"item": [
 						{
-							"name": "structure",
+							"name": "structure booking",
 							"event": [
 								{
 									"listen": "test",
