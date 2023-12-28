@@ -9,7 +9,7 @@
 			"name": "Sign in Admin",
 			"item": [
 				{
-					"name": "Sign in",
+					"name": "Signin",
 					"event": [
 						{
 							"listen": "prerequest",
