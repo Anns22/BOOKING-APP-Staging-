@@ -2975,6 +2975,20 @@
 			"item": [
 				{
 					"name": "form-structure",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "00a44a7d-c32e-438c-9c3f-de6a933e6743",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"id": "0a49af51-14ed-4d1b-bc22-65709e191b4b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -2992,7 +3006,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "0b80f80f-a7ae-4f68-929f-532bb8ba000b",
+								"id": "4f781eed-690a-4c70-b814-087ef273cec7",
 								"exec": [
 									"// List of names\r",
 									"const names = [\r",
@@ -3142,33 +3156,22 @@
 									"pm.variables.set(\"address1\", getRandomStreet());\r",
 									"\r",
 									"\r",
-									"// const randomStaff = [\r",
-									"//     \"AB12\", \"EF34\", \"IJ56\", \"MN78\", \"QR90\", \"UV12\", \"YZ34\",\r",
-									"//     \"BC67\", \"GH89\", \"KL01\", \"OP23\", \"ST45\", \"WX67\", \"DE89\",\r",
-									"//     \"IJ11\", \"MN23\", \"QR45\", \"UV67\", \"YZ89\", \"FG01\", \"KL34\",\r",
-									"//     \"OP56\", \"ST78\", \"WX90\", \"AB23\", \"DE45\", \"IJ67\", \"MN89\",\r",
-									"//     \"QR12\", \"UV34\"\r",
-									"// ];\r",
+									"const randomStaff = [\r",
+									"    \"AB12\", \"EF34\", \"IJ56\", \"MN78\", \"QR90\", \"UV12\", \"YZ34\",\r",
+									"    \"BC67\", \"GH89\", \"KL01\", \"OP23\", \"ST45\", \"WX67\", \"DE89\",\r",
+									"    \"IJ11\", \"MN23\", \"QR45\", \"UV67\", \"YZ89\", \"FG01\", \"KL34\",\r",
+									"    \"OP56\", \"ST78\", \"WX90\", \"AB23\", \"DE45\", \"IJ67\", \"MN89\",\r",
+									"    \"QR12\", \"UV34\"\r",
+									"];\r",
 									" \r",
-									"// function getRandomStaffCode() {\r",
-									"//     const randomIndex = Math.floor(Math.random() * randomStaff.length);\r",
-									"//     return randomStaff[randomIndex];\r",
-									"// }\r",
-									"\r",
-									"// pm.variables.set(\"staff_code\", getRandomStaffCode());\r",
-									"\r",
-									"function generateRandomCode(length) {\r",
-									"    const alphanumeric = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\";\r",
-									"    let code = '';\r",
-									"    for (let i = 0; i < length; i++) {\r",
-									"        const randomIndex = Math.floor(Math.random() * alphanumeric.length);\r",
-									"        code += alphanumeric.charAt(randomIndex);\r",
-									"    }\r",
-									"    return code;\r",
+									"function getRandomStaffCode() {\r",
+									"    const randomIndex = Math.floor(Math.random() * randomStaff.length);\r",
+									"    return randomStaff[randomIndex];\r",
 									"}\r",
 									"\r",
-									"const randomCode = generateRandomCode(4); // Change the length as needed\r",
-									"pm.variables.set(\"staff_code\", randomCode);\r",
+									"pm.variables.set(\"staff_code\", getRandomStaffCode());\r",
+									"\r",
+									"\r",
 									"\r",
 									"const city = [\r",
 									"    \"Birmingham\",\"Bradford\",\"Brighton & Hove\",\"Bristol\",\"Cambridge\",\"Cambridge\",\"Canterbury\",\"Carlisle\",\"Chelmsford\",\"Chester\",\"Chichester\",\"Colchester\",\"Coventry\",\"Derby\",\"Doncaster\",\"Durham\",\"Kingston\",\"Gloucester\",\"Hereford\",\r",
@@ -3193,13 +3196,11 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4ec989ed-3887-485d-aaf4-4d4d3ab60361",
+								"id": "84ca88da-39ab-4de4-bc43-0234aee79c56",
 								"exec": [
-									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									""
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -3214,7 +3215,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"form_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"profile_image\": \"https://staging-booking.agilecyber.com/files/files/1/calender/download (1) (3).jpeg\",\r\n            \"email\": \"{{Staff-email}}\",\r\n            \"first_name\": \"{{Staff-firstname}}\",\r\n            \"last_name\": \"{{Staff-lastname}}\",\r\n            \"staff_id\": \"{{staff_code}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"alternate_phone_number\": \"44 1234567467\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{city}}\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"service_id\": [237]\r\n            \r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"form_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"profile_image\": \"https://staging-booking.agilecyber.com/files/files/1/calender/download (1) (3).jpeg\",\r\n            \"email\": \"{{Staff-email}}\",\r\n            \"first_name\": \"{{Staff-firstname}}\",\r\n            \"last_name\": \"{{Staff-lastname}}\",\r\n            \"staff_id\": \"{{staff_code}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"alternate_phone_number\": \"44 1234567467\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{city}}\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"service_id\": [{{Service_id}}]\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3231,22 +3232,11 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cbfd514b-f9cd-4dba-9ddd-308141aa7953",
+								"id": "485d2644-f0f6-4cb3-88fd-212a8da0a789",
 								"exec": [
-									"var data = JSON.parse(responseBody);\r",
-									"\r",
-									"var responseJson = JSON.parse(responseBody);\r",
-									"\r",
-									"postman.setEnvironmentVariable(\"STAFF_ID\", responseJson.data[0][\"id\"]);\r",
-									"postman.setEnvironmentVariable(\"email\", responseJson.data[0][\"email\"]);\r",
-									"postman.setEnvironmentVariable(\"staff\", responseJson.data[0][\"staff_id\"]);\r",
-									"postman.setEnvironmentVariable(\"staff_firstname\", responseJson.data[0][\"first_name\"]);\r",
-									"postman.setEnvironmentVariable(\"staff_lastname\", responseJson.data[0][\"last_name\"]);\r",
-									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									""
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -3269,42 +3259,11 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9d63d272-2f75-4bd6-bd47-463ec0617205",
+								"id": "ebbdc5ea-e53f-4003-a857-f03d66821082",
 								"exec": [
-									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "1474cb9c-3642-46f4-9985-1c9b3125fa29",
-								"exec": [
-									"\r",
-									"//Firstname\r",
-									"// List of first names\r",
-									"const firstNames = [\r",
-									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
-									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
-									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
-									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
-									"];\r",
-									" \r",
-									"// Function to get a random first name\r",
-									"function getRandomFirstName() {\r",
-									"    const randomIndex = Math.floor(Math.random() * firstNames.length);\r",
-									"    return firstNames[randomIndex];\r",
-									"}\r",
-									" \r",
-									"// Set the random first name as a variable\r",
-									"pm.variables.set(\"staff-firstname\", getRandomFirstName()); \r",
-									"\r",
-									""
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -3319,7 +3278,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \r\n    \"data\": [\r\n        {   \"id\": \"{{STAFF_ID}}\",\r\n            \"profile_image\": \"https://dev-booking.agilecyber.com/files/files/1/user/Screenshot 2023-11-08 123214.png\",\r\n             \"email\": \"{{email}}\",\r\n            \"first_name\": \"{{staff-firstname}}\",\r\n            \"last_name\": \"staff\",\r\n            \"staff_id\": \"{{staff}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"+44123456789\",\r\n            \"alternate_phone_number\": \"+44123456789\",\r\n            \"address_1\": \"76c\",\r\n            \"address_2\": \"1332\",\r\n            \"city\": \"city\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"DR5 0RT\",\r\n            \"service_id\": [{{Service_id}}]\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n   \r\n    \"data\": [\r\n        {   \"id\": \"{{STAFF_ID}}\",\r\n            \"profile_image\": \"https://dev-booking.agilecyber.com/files/files/1/user/Screenshot 2023-11-08 123214.png\",\r\n             \"email\": \"{{email}}\",\r\n            \"first_name\": \"{{firstname}}\",\r\n            \"last_name\": \"{{lastname}}\",\r\n            \"staff_id\": \"{{staff}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"+44123456789\",\r\n            \"alternate_phone_number\": \"+44123456789\",\r\n            \"address_1\": \"76c\",\r\n            \"address_2\": \"1332\",\r\n            \"city\": \"city\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"DR5 0RT\",\r\n            \"service_id\": [\r\n                36\r\n            ]\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3356,7 +3315,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "4f7ddfbf-e09d-4454-a4a7-41f6caf65546",
+						"id": "0f971c4c-ce80-42ab-83f6-a715d6409322",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -3366,7 +3325,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5aa9a027-2ff3-4963-8fa8-2db00fc6566c",
+						"id": "db1431cb-ced2-45e8-9b1b-650fc88a41c3",
 						"type": "text/javascript",
 						"exec": [
 							""
