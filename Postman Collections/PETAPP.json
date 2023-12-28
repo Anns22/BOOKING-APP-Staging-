@@ -2963,7 +2963,7 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.globals.set(\"STAFF_ID\", data.data[0][\"id\"]);\r",
-									"pm.globals.set(\"Staff_email\", data.data[0][\"email\"]);\r",
+									"pm.globals.set(\"Staff_email1\", data.data[0][\"email\"]);\r",
 									"pm.globals.set(\"staff_code\", data.data[0][\"staff_id\"]);\r",
 									"\r",
 									"var data = JSON.parse(responseBody);\r",
@@ -3202,7 +3202,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \r\n    \"data\": [\r\n        {   \"id\": \"{{STAFF_ID}}\",\r\n            \"profile_image\": \"https://staging-booking.agilecyber.com/files/files/1/calender/download (1) (3).jpeg\",\r\n            \"email\": \"{{Staff_email1}}\",\r\n            \"first_name\": \"{{Staff-firstname}}\",\r\n            \"last_name\": \"{{Staff-lastname}}\",\r\n            \"staff_id\": \"{{staff_code}}\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"alternate_phone_number\": \"44 1234567467\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{city}}\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"service_id\": [{{Service_id}}]\r\n            \r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n   \r\n    \"data\": [\r\n        {   \"id\": \"{{STAFF_ID}}\",\r\n            \"profile_image\": \"https://staging-booking.agilecyber.com/files/files/1/calender/download (1) (3).jpeg\",\r\n            \"email\": \"{{Staff_email1}}\",\r\n            \"first_name\": \"{{Staff-firstname}}\",\r\n            \"last_name\": \"{{Staff-lastname}}\",\r\n            \"staff_id\": \"IJ56\",\r\n            \"gender_id\": 1,\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"alternate_phone_number\": \"44 1234567467\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{city}}\",\r\n            \"country_id\": 1,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"service_id\": [{{Service_id}}]\r\n            \r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
