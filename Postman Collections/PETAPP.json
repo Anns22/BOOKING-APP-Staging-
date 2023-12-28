@@ -2058,6 +2058,7 @@
 									"var responseJson = JSON.parse(responseBody);\r",
 									"\r",
 									"postman.setEnvironmentVariable(\"user_ID\", responseJson.data[0]['id']);\r",
+									"postman.setEnvironmentVariable(\"user_ID_delete\", responseJson.data[1]['id']);\r",
 									"postman.setEnvironmentVariable(\"e-mail\", responseJson.data[0]['email']);\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -4091,7 +4092,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ids\": [{{user_ID}}]\r\n}",
+							"raw": "{\r\n    \"ids\": [\r\n        {{user_ID_delete}}\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
