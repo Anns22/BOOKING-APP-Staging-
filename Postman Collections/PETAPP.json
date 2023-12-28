@@ -9,7 +9,7 @@
 			"name": "Sign in Admin",
 			"item": [
 				{
-					"name": "Signin",
+					"name": "Sign in",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -900,7 +900,21 @@
 								}
 							}
 						},
-						"url": "{{Url}}user/form_submit"
+						"url": {
+							"raw": "{{Url}}user/form_submit?form_id=8",
+							"host": [
+								"{{Url}}user"
+							],
+							"path": [
+								"form_submit"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "8"
+								}
+							]
+						}
 					},
 					"response": []
 				},
