@@ -1161,6 +1161,7 @@
 									"var responseJson = JSON.parse(responseBody);\r",
 									"\r",
 									"postman.setEnvironmentVariable(\"Slot_id\", responseJson.data[0]['id']);\r",
+									"postman.setEnvironmentVariable(\"Slot_name\", responseJson.data[0]['name']);\r",
 									"postman.setEnvironmentVariable(\"Slot_id_delete\", responseJson.data[5]['id']);\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -1215,7 +1216,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\": {{Slot_id}},\r\n           \"name\": \"{{random_time_slot}}\",\r\n            \"description\":\"These time slots are commonly used for various pet services such as pet grooming, pet sitting, dog walking, veterinary appointments, and more. \"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\": {{Slot_id}},\r\n           \"name\": \"{{Slot_name}}\",\r\n            \"description\":\"These time slots are commonly used for various pet services such as pet grooming, pet sitting, dog walking, veterinary appointments, and more. \"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
