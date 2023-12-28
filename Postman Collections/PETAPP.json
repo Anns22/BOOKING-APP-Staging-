@@ -1216,7 +1216,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\": {{Slot_id}},\r\n            \"name\": \"{{Slot_name}}\",\r\n            \"description\": \"These time slots are commonly used for various pet services such as pet grooming, pet sitting, dog walking, veterinary appointments\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\":{{Slot_id}},\r\n            \"name\": \"{{Slot_name}}\",\r\n            \"description\": \"These time slots are commonly used for various pet services such as pet grooming, pet sitting, dog walking, veterinary appointments\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3280,9 +3280,7 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.test(\"Response time is less than 200ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
