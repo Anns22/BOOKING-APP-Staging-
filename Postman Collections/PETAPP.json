@@ -2532,6 +2532,7 @@
 									"var responseJson = JSON.parse(responseBody);\r",
 									"\r",
 									"postman.setEnvironmentVariable(\"beneficiary_ID\", responseJson.data[0]['id']);\r",
+									"postman.setEnvironmentVariable(\"Delete_beneficiary_ID\", responseJson.data[2]['id']);\r",
 									"postman.setEnvironmentVariable(\"parent_ID\", responseJson.data[0]['parent_id']);\r",
 									"postman.setEnvironmentVariable(\"update_uuid\", responseJson.data[0]['uuid']);\r",
 									"postman.setEnvironmentVariable(\"update_parent_uuid\", responseJson.data[0]['parent_uuid']);\r",
@@ -2685,287 +2686,6 @@
 							""
 						],
 						"id": "2d2edbb5-71cd-4f7d-bea2-875bead3eda7"
-					}
-				}
-			]
-		},
-		{
-			"name": "Admin Beneficiary",
-			"item": [
-				{
-					"name": "structure",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "99367077-9dfd-432d-8935-9b37eab7d08a",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "5d777de0-4f1c-422b-9efa-d9c1c7201dd4",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "{{Url}}/user/form-structure/fields/beneficiary"
-					},
-					"response": []
-				},
-				{
-					"name": "form_submit",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "f23aae78-a645-4cd9-8db9-24a23cfac216",
-								"exec": [
-									"// Function to generate a random UUID (v4)\r",
-									"function generateUUID() {\r",
-									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
-									"        var r = Math.random() * 16 | 0,\r",
-									"            v = c === 'x' ? r : (r & 0x3 | 0x8);\r",
-									"        return v.toString(16);\r",
-									"    });\r",
-									"}\r",
-									"\r",
-									"// Set the generated UUID as an environment variable\r",
-									"pm.environment.set(\"random_uuid\", generateUUID());\r",
-									"\r",
-									"const petNames = [\r",
-									"    \"Max\", \"Bella\", \"Charlie\", \"Luna\", \"Cooper\", \"Daisy\", \"Buddy\", \"Lucy\", \"Rocky\", \"Molly\",\r",
-									"    \"Bailey\", \"Sadie\", \"Toby\", \"Chloe\", \"Jack\", \"Sophie\", \"Duke\", \"Rosie\", \"Riley\", \"Zoe\"\r",
-									"];\r",
-									"\r",
-									"// Function to get a random pet name\r",
-									"function getRandomPetName() {\r",
-									"    const randomIndex = Math.floor(Math.random() * petNames.length);\r",
-									"    return petNames[randomIndex];\r",
-									"}\r",
-									"\r",
-									"// Set the random pet name as an environment variable\r",
-									"pm.environment.set(\"random_pet_name\", getRandomPetName());\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "75361db8-0150-40f0-a456-baecfdb2fa2f",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "da13bd01-56e1-4fa2-a611-a2416b06aba8",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"form_id\": 4,\r\n    \"subscriber_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"parent_id\": 1622,\r\n            \"uuid\": \"{{random_uuid}}\",\r\n            \"first_name\": \"{{random_pet_name}}\",\r\n            \"profile_image\": null,\r\n            \"parent_uuid\": \"{{random_uuid}}\",\r\n            \"dob\": \"12-09-2021\",\r\n            \"gender_id\": 2,\r\n            \"pet_type\": null,\r\n            \"size\": null,\r\n            \"dog_lead\":1,\r\n            \"is_suspended\":0,\r\n            \"subtype_id\": \"46\",\r\n            \"behaviour_id\": [1,2],\r\n            \"dietary_issues\": null,\r\n            \"allergies\": null,\r\n            \"vet_name\": null,\r\n            \"vet_address\": null,\r\n            \"vet_phone\": \"\",\r\n            \"microchip_id\": null,\r\n            \"emergency_contact_name\": null,\r\n            \"emergency_contact_phone\": null,\r\n            \"special_instructions\": null,\r\n            \"feeding_schedules\": null,\r\n            \"additional_contacts\": null,\r\n            \"medical_records\": null\r\n           \r\n        }\r\n    ]\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{Url}}/user/form_submit"
-					},
-					"response": []
-				},
-				{
-					"name": "list",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "ff879190-bd61-46e4-a120-534790ba5742",
-								"exec": [
-									"var data = JSON.parse(responseBody);\r",
-									"\r",
-									"var responseJson = JSON.parse(responseBody);\r",
-									"\r",
-									"postman.setEnvironmentVariable(\"Admin_beneficiary_ID\", responseJson.data[0]['id']);\r",
-									"postman.setEnvironmentVariable(\"Admin_parent_ID\", responseJson.data[0]['parent_id']);\r",
-									"postman.setEnvironmentVariable(\"Admin_update_uuid\", responseJson.data[0]['uuid']);\r",
-									"postman.setEnvironmentVariable(\"Admin_update_parent_uuid\", responseJson.data[0]['parent_uuid']);\r",
-									"// postman.setEnvironmentVariable(\"beneficiary_ID1\", responseJson.data[12]['id']);\r",
-									"\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "ebd56072-7ae4-42a3-88d1-bd0b06c457b9",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{Url}}user/list/beneficiary?parent_id=1622",
-							"host": [
-								"{{Url}}user"
-							],
-							"path": [
-								"list",
-								"beneficiary"
-							],
-							"query": [
-								{
-									"key": "parent_id",
-									"value": "1622"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "ce6c6adf-234e-4021-80dd-787bf495b273",
-								"exec": [
-									"// Function to generate a random UUID (v4)\r",
-									"function generateUUID() {\r",
-									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
-									"        var r = Math.random() * 16 | 0,\r",
-									"            v = c === 'x' ? r : (r & 0x3 | 0x8);\r",
-									"        return v.toString(16);\r",
-									"    });\r",
-									"}\r",
-									"\r",
-									"// Set the generated UUID as an environment variable\r",
-									"pm.environment.set(\"Admin_random_uuid\", generateUUID());\r",
-									"\r",
-									"const petNames = [\r",
-									"    \"Max\", \"Bella\", \"Charlie\", \"Luna\", \"Cooper\", \"Daisy\", \"Buddy\", \"Lucy\", \"Rocky\", \"Molly\",\r",
-									"    \"Bailey\", \"Sadie\", \"Toby\", \"Chloe\", \"Jack\", \"Sophie\", \"Duke\", \"Rosie\", \"Riley\", \"Zoe\"\r",
-									"];\r",
-									"\r",
-									"// Function to get a random pet name\r",
-									"function getRandomPetName() {\r",
-									"    const randomIndex = Math.floor(Math.random() * petNames.length);\r",
-									"    return petNames[randomIndex];\r",
-									"}\r",
-									"\r",
-									"// Set the random pet name as an environment variable\r",
-									"pm.environment.set(\"Admin_random_pet_name\", getRandomPetName());\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "07762353-8cf2-43b9-8689-7dcd5ad73733",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "58561131-66af-4f60-81bb-3342d2c57a0e",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"form_id\": 4,\r\n    \"subscriber_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"id\":\"{{Admin_beneficiary_ID}}\",\r\n            \"parent_id\": 1642,\r\n            \"uuid\": \"{{Admin_random_uuid}}\",\r\n            \"first_name\": \"{{Admin_random_pet_name}}\",\r\n            \"profile_image\": null,\r\n            \"parent_uuid\": \"{{Admin_random_uuid}}\",\r\n            \"dob\": \"12-09-2021\",\r\n            \"gender_id\": 2,\r\n            \"pet_type\": null,\r\n            \"size\": null,\r\n            \"dog_lead\":1,\r\n            \"is_suspended\":0,\r\n            \"subtype_id\": \"46\",\r\n            \"behaviour_id\": [1,2],\r\n            \"dietary_issues\": null,\r\n            \"allergies\": null,\r\n            \"vet_name\": null,\r\n            \"vet_address\": null,\r\n            \"vet_phone\": \"\",\r\n            \"microchip_id\": null,\r\n            \"emergency_contact_name\": null,\r\n            \"emergency_contact_phone\": null,\r\n            \"special_instructions\": null,\r\n            \"feeding_schedules\": null,\r\n            \"additional_contacts\": null,\r\n            \"medical_records\": null\r\n           \r\n        }\r\n    ]\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{Url}}user/form_submit?form_id=4",
-							"host": [
-								"{{Url}}user"
-							],
-							"path": [
-								"form_submit"
-							],
-							"query": [
-								{
-									"key": "form_id",
-									"value": "4"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"id": "9b5276bf-1490-4474-9d9e-76ba72733f56",
-			"auth": {
-				"type": "bearer",
-				"bearer": {
-					"token": "{{Admin_refresh_token1}}"
-				}
-			},
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "1c05dc95-bf66-4ac8-9c75-bacb13d25110",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "01df1875-69a1-4321-ba2d-157647a8da62",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
 					}
 				}
 			]
@@ -4050,7 +3770,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ids\" : [{{beneficiary_ID}}]\r\n}",
+							"raw": "{\r\n    \"ids\" : [{{Delete_beneficiary_ID}}]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4058,7 +3778,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{Url}}user/form_submit/bulk?form_id=3",
+							"raw": "{{Url}}user/form_submit/bulk?form_id=7",
 							"host": [
 								"{{Url}}user"
 							],
@@ -4069,7 +3789,7 @@
 							"query": [
 								{
 									"key": "form_id",
-									"value": "3"
+									"value": "7"
 								}
 							]
 						}
@@ -4206,7 +3926,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{Url}}user/form_submit/bulk?form_id=13",
+							"raw": "{{Url}}user/form_submit/bulk?form_id=2",
 							"host": [
 								"{{Url}}user"
 							],
@@ -4217,7 +3937,7 @@
 							"query": [
 								{
 									"key": "form_id",
-									"value": "13"
+									"value": "2"
 								}
 							]
 						}
