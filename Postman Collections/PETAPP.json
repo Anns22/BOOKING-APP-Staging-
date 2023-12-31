@@ -2032,7 +2032,8 @@
 									"var responseJson = JSON.parse(responseBody);\r",
 									"\r",
 									"postman.setEnvironmentVariable(\"Admin_ID\", responseJson.data[0]['id']);\r",
-									"postman.setEnvironmentVariable(\"Admin-mail\", responseJson.data[0]['email']);"
+									"postman.setEnvironmentVariable(\"Admin-mail\", responseJson.data[0]['email']);\r",
+									"postman.setEnvironmentVariable(\"Admin_ID1\", responseJson.data[5]['id']);"
 								],
 								"type": "text/javascript"
 							}
@@ -4600,7 +4601,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ids\": [{{user_ID_delete}}]\r\n}",
+							"raw": "{\r\n    \"ids\": [{{Admin_ID1}}]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4608,7 +4609,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{Url}}user/form_submit/bulk?form_id=2",
+							"raw": "{{Url}}user/form_submit/bulk?form_id=13",
 							"host": [
 								"{{Url}}user"
 							],
@@ -4619,7 +4620,7 @@
 							"query": [
 								{
 									"key": "form_id",
-									"value": "2"
+									"value": "13"
 								}
 							]
 						}
