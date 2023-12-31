@@ -1356,6 +1356,7 @@
 									"\r",
 									"\r",
 									"\r",
+									"\r",
 									"// Generate a random base price between 10 and 1000 (adjust range as needed)\r",
 									"const basePrice = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;\r",
 									"\r",
