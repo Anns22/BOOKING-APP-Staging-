@@ -1206,7 +1206,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\":{{Slot_id}},\r\n            \"name\": \"{{Slot_name}}\",\r\n            \"description\": \"These time slots are commonly used for various pet services such as pet grooming, pet sitting, dog walking, veterinary appointments\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\":{{Slot_id}},\r\n            \"name\": \"{{Slot_name}}\",\r\n            \"description\": \"These time slots are commonly used for various pet services such as pet grooming, pet sitting, dog walking\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1403,7 +1403,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"form_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"name\":\"{{random_service_name}}\",\r\n            \"image\": null,\r\n            \"description\": \"The pet services segment, including grooming, boarding, pet hotels, pet sitting, day care and other services, has been the fastest-growing\",\r\n            \"base_price\":{{base_price}},\r\n            \"enable_repeat_booking\": 1,\r\n            \"auto_approval_threshold_limit\": 2,\r\n            \"booking_beyond_capacity\": 60,\r\n            \"beneficiary_subtype_id\":[57],\r\n            \"beneficiary_age_limit_max\": {\r\n                \"year\": 5,\r\n                \"month\": 5\r\n            },\r\n            \"beneficiary_age_limit_min\": {\r\n                \"year\": 0,\r\n                \"month\": 5\r\n            },\r\n            \"advance_booking_requirement\": {\r\n                \"day\": 7\r\n            },\r\n            \"maximum_allowed_date_for_booking\": {\r\n                \"day\": 10\r\n            },\r\n            \"staff_handling_capacity\": 34,\r\n            \"service_availability\": 1,\r\n            \"available_date_from\": \"23-11-2023\",\r\n            \"available_date_to\": \"24-11-2024\",\r\n            \"time_slots_id\": [\r\n                {{Slot_id}}\r\n            ],\r\n            \"pricing_rule\":{\r\n    \"tiered_pricing\": [\r\n        {\r\n            \"Quantity\": 2,\r\n            \"pricing\": 55,\r\n            \"discount_in\": \"percentage\"\r\n        },\r\n        {\r\n            \"Quantity\": 3,\r\n            \"pricing\": 12,\r\n            \"discount_in\": \"percentage\"\r\n        }\r\n    ],\r\n    \"tag_pricing\": [\r\n        {\r\n            \"tag_id\": \"52\",\r\n            \"pricing\": 25,\r\n            \"discount_in\": \"percentage\"\r\n        },\r\n        {\r\n            \"tag_id\": \"76\",\r\n            \"pricing\": 27,\r\n            \"discount_in\": \"percentage\"\r\n        }\r\n    ]\r\n            }\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"form_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"name\":\"{{random_service_name}}\",\r\n            \"image\": null,\r\n            \"description\": \"The pet services segment, including grooming, boarding, pet hotels, pet sitting, day care and other services, has been the fastest-growing\",\r\n            \"base_price\":{{base_price}},\r\n            \"enable_repeat_booking\": 1,\r\n            \"auto_approval_threshold_limit\": 2,\r\n            \"booking_beyond_capacity\": 60,\r\n            \"beneficiary_subtype_id\":[57],\r\n            \"beneficiary_age_limit_max\": {\r\n                \"year\": 5,\r\n                \"month\": 5\r\n            },\r\n            \"beneficiary_age_limit_min\": {\r\n                \"year\": 0,\r\n                \"month\": 5\r\n            },\r\n            \"advance_booking_requirement\": {\r\n                \"day\": 7\r\n            },\r\n            \"maximum_allowed_date_for_booking\": {\r\n                \"day\": 10\r\n            },\r\n            \"staff_handling_capacity\": 34,\r\n            \"service_availability\": 1,\r\n            \"available_date_from\": \"23-11-2023\",\r\n            \"available_date_to\": \"24-11-2024\",\r\n            \"time_slots_id\": [\r\n                {{Slot_id}}\r\n            ],\r\n            \"pricing_rule\":{\r\n    \"tiered_pricing\": [\r\n        {\r\n            \"Quantity\": 2,\r\n            \"pricing\": 55,\r\n            \"discount_in\": \"percentage\"\r\n        }\r\n    ],\r\n    \"tag_pricing\": [\r\n        {\r\n            \"tag_id\": \"52\",\r\n            \"pricing\": 25,\r\n            \"discount_in\": \"percentage\"\r\n        }\r\n    ]\r\n            }\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3808,7 +3808,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"subscriber_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"beneficiary_id\": [{{beneficiary_ID}}],\r\n            \"service_id\":{{Service_id}},\r\n            \"booking_type_id\":1,\r\n            \"booking_date\": [\r\n                {\r\n                    \"date\": \"2024-01-05\",\r\n                    \"slot_id\": {{Slot_id}}\r\n                }\r\n            ],\r\n            \"notes\": \"Celebrating a special occasion—any surprises welcome! Happy bookings\",\r\n            \"booking_group_id\": null\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"subscriber_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"beneficiary_id\": [{{beneficiary_ID}}],\r\n            \"service_id\":{{Service_id}},\r\n            \"booking_type_id\":1,\r\n            \"booking_date\": [\r\n                {\r\n                    \"date\": \"2024-01-08\",\r\n                    \"slot_id\": {{Slot_id}}\r\n                }\r\n            ],\r\n            \"notes\": \"Celebrating a special occasion—any surprises welcome! Happy bookings\",\r\n            \"booking_group_id\": null\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3917,7 +3917,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"subscriber_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"beneficiary_id\": [{{beneficiary_ID}}],\r\n            \"service_id\": {{Service_id}},\r\n            \"booking_type_id\": 2,\r\n            \"booking_date\": [\r\n                {\r\n                    \"date\": \"2024-01-06\",\r\n                    \"slot_id\": {{Slot_id}}\r\n                },\r\n                {\r\n                    \"date\": \"2024-01-07\",\r\n                    \"slot_id\": {{Slot_id}}\r\n                }\r\n            ],\r\n            \"notes\": \"To book a pet service, contact the provider, specify your pet's details and service needs, confirm availability, discuss pricing, and provide contact information. Once details are agreed upon, receive a booking confirmation outlining terms and conditions.\",\r\n            \"booking_group_id\": null\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"subscriber_id\": 1,\r\n    \"data\": [\r\n        {\r\n            \"beneficiary_id\": [{{beneficiary_ID}}],\r\n            \"service_id\": {{Service_id}},\r\n            \"booking_type_id\": 2,\r\n            \"booking_date\": [\r\n                {\r\n                    \"date\": \"2024-01-09\",\r\n                    \"slot_id\": {{Slot_id}}\r\n                },\r\n                {\r\n                    \"date\": \"2024-01-10\",\r\n                    \"slot_id\": {{Slot_id}}\r\n                }\r\n            ],\r\n            \"notes\": \"To book a pet service, contact the provider, specify your pet's details and service needs, confirm availability, discuss pricing, and provide contact information. Once details are agreed upon, receive a booking confirmation outlining terms and conditions.\",\r\n            \"booking_group_id\": null\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4203,7 +4203,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{Url}}booking/list/bookings?status=unassigned",
+									"raw": "{{Url}}booking/list/bookings?status=pending",
 									"host": [
 										"{{Url}}booking"
 									],
@@ -4214,7 +4214,7 @@
 									"query": [
 										{
 											"key": "status",
-											"value": "unassigned"
+											"value": "pending"
 										}
 									]
 								}
@@ -4249,7 +4249,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{Url}}booking/list/bookings?status=unassigned",
+									"raw": "{{Url}}booking/list/bookings?status=rejected",
 									"host": [
 										"{{Url}}booking"
 									],
@@ -4260,7 +4260,7 @@
 									"query": [
 										{
 											"key": "status",
-											"value": "unassigned"
+											"value": "rejected"
 										}
 									]
 								}
