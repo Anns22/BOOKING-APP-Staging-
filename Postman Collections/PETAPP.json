@@ -4176,6 +4176,52 @@
 							"response": []
 						},
 						{
+							"name": "List by status pending",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "18f243ff-9809-492b-a440-1284844ea086",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"postman.setEnvironmentVariable(\"Booking_ID\", pm.response.json().data[0].services[0].slots[0].Bookings[0].id);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "94c4c7d9-9a8a-44b5-a9a5-db3de9fdfd2c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{Url}}booking/list/bookings?status=unassigned",
+									"host": [
+										"{{Url}}booking"
+									],
+									"path": [
+										"list",
+										"bookings"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "unassigned"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Booking Aproved",
 							"event": [
 								{
