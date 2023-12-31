@@ -1213,7 +1213,7 @@
 							}
 						}
 					],
-					"id": "07c6986f-77a7-47ca-ae53-aa44a62639ec",
+					"id": "042ddcee-2654-4668-ad2b-b827526e04f7",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -4679,6 +4679,49 @@
 					"response": []
 				},
 				{
+					"name": "Time_Slot_delete",
+					"id": "55d4fef4-65d5-42ef-9f4f-d56ea28486bd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Admin_refresh_token1}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " \r\n{\r\n    \"ids\": [\r\n        {{Slot_id_delete}}\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}service/form_submit/bulk?form_id=2",
+							"host": [
+								"{{Url}}service"
+							],
+							"path": [
+								"form_submit",
+								"bulk"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Customer delete",
 					"event": [
 						{
@@ -4730,49 +4773,6 @@
 								{
 									"key": "form_id",
 									"value": "13"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Time_Slot_delete",
-					"id": "55d4fef4-65d5-42ef-9f4f-d56ea28486bd",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{Admin_refresh_token1}}"
-							}
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": " \r\n{\r\n    \"ids\": [\r\n        {{Slot_id_delete}}\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{Url}}service/form_submit/bulk?form_id=2",
-							"host": [
-								"{{Url}}service"
-							],
-							"path": [
-								"form_submit",
-								"bulk"
-							],
-							"query": [
-								{
-									"key": "form_id",
-									"value": "2"
 								}
 							]
 						}
