@@ -4722,6 +4722,63 @@
 					"response": []
 				},
 				{
+					"name": "Service delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ee985664-0f29-4533-a0b1-63a1190fa75e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "51ca2d85-66ae-4228-baf1-a881d68be78b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ids\" : [{{Service_id1}}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}service/form_submit/bulk?form_id=1",
+							"host": [
+								"{{Url}}service"
+							],
+							"path": [
+								"form_submit",
+								"bulk"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Customer delete",
 					"event": [
 						{
