@@ -1817,6 +1817,487 @@
 			]
 		},
 		{
+			"name": "Add info Page Admin",
+			"item": [
+				{
+					"name": "form-structure",
+					"id": "b7777906-a291-4f56-a291-af6c467f4a27",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}user/form-structure/fields/user_management"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "13608db7-79e5-46a8-adda-dd61847f1b0b",
+								"exec": [
+									"// List of names\r",
+									"const names = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// List of domain names\r",
+									"const domains = [\"gmail.com\", \"agilecyber.com\", \"agilecybersolutions.com\"];\r",
+									" \r",
+									"// Function to generate a unique email with random 5-digit number\r",
+									"function generateUniqueEmail() {\r",
+									"    const randomIndexName = Math.floor(Math.random() * names.length);\r",
+									"    const randomName = names[randomIndexName].toLowerCase();\r",
+									"    \r",
+									"    const randomIndexDomain = Math.floor(Math.random() * domains.length);\r",
+									"    const randomDomain = domains[randomIndexDomain];\r",
+									" \r",
+									"    const uniqueIdentifier = Math.floor(10000 + Math.random() * 90000); // Generate random 5-digit number\r",
+									" \r",
+									"    return `${randomName}_${uniqueIdentifier}@${randomDomain}`;\r",
+									"}\r",
+									" \r",
+									"// Set the unique email as a variable\r",
+									"pm.variables.set(\"Admin-email\", generateUniqueEmail()); \r",
+									"\r",
+									"\r",
+									"//Firstname\r",
+									"// List of first names\r",
+									"const firstNames = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// Function to get a random first name\r",
+									"function getRandomFirstName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * firstNames.length);\r",
+									"    return firstNames[randomIndex];\r",
+									"}\r",
+									" \r",
+									"// Set the random first name as a variable\r",
+									"pm.variables.set(\"Admin-firstname\", getRandomFirstName()); \r",
+									"\r",
+									"\r",
+									"const randomPostcodes = [\r",
+									"    \"AB1 2CD\", \"EF3 4GH\", \"IJ5 6KL\", \"MN7 8OP\", \"QR9 0ST\", \"UV1 2WX\", \"YZ3 4AB\",\r",
+									"    \"BC6 7DE\", \"GH8 9IJ\", \"KL0 1MN\", \"OP2 3QR\", \"ST4 5UV\", \"WX6 7YZ\", \"DE8 9FG\",\r",
+									"    \"IJ0 1KL\", \"MN2 3OP\", \"QR4 5ST\", \"UV6 7WX\", \"YZ8 9AB\", \"FG0 1IJ\", \"KL3 4MN\",\r",
+									"    \"OP5 6QR\", \"ST7 8UV\", \"WX9 0YZ\", \"AB2 3CD\", \"DE4 5FG\", \"IJ6 7KL\", \"MN8 9OP\",\r",
+									"    \"QR1 2ST\", \"UV3 4WX\"\r",
+									"];\r",
+									" \r",
+									"function getRandomPostal() {\r",
+									"    const randomIndex = Math.floor(Math.random() * randomPostcodes.length);\r",
+									"    return randomPostcodes[randomIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"postcode\", getRandomPostal()); \r",
+									"\r",
+									"\r",
+									"\r",
+									"function generateRandomName() {\r",
+									"  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';\r",
+									"  const nameLength = Math.floor(Math.random() * 10) + 5; // Generates a name with 5 to 14 characters\r",
+									"  let randomName = '';\r",
+									"\r",
+									"  for (let i = 0; i < nameLength; i++) {\r",
+									"    const randomIndex = Math.floor(Math.random() * alphabet.length);\r",
+									"    randomName += alphabet.charAt(randomIndex);\r",
+									"  }\r",
+									"\r",
+									"  return randomName;\r",
+									"}\r",
+									"\r",
+									"const randomName = generateRandomName();\r",
+									"pm.globals.set(\"city\", randomName);\r",
+									"\r",
+									"\r",
+									"\r",
+									"const randomDigits = [\r",
+									"    \"9876543210\", \"8765432109\", \"7654321098\", \"6543210987\", \"5432109876\", \"4321098765\", \"3210987654\"\r",
+									"];\r",
+									"\r",
+									"// Function to generate a random set of 7 digits for the phone number\r",
+									"function getRandomPhoneNumber() {\r",
+									"    const randomDigit = Math.floor(Math.random() * randomDigits.length);\r",
+									"    return randomDigits[randomDigit];\r",
+									"}\r",
+									"\r",
+									"// Set the random UK phone number as a variable\r",
+									"pm.variables.set(\"phone\", `44${getRandomPhoneNumber()}`);\r",
+									"\r",
+									"\r",
+									"const randomHouseNames = [\r",
+									"    \"Rose Cottage\", \"Oak View House\", \"Meadowcroft\", \"The Pines\", \"Riverside Manor\",\r",
+									"    \"Elmwood Lodge\", \"Ivy Cottage\", \"Sunnyside Retreat\", \"Willow House\", \"Cedar Haven\",\r",
+									"    \"Maple Mansion\", \"Sunset Villa\", \"Riverbank House\", \"Cherry Blossom Cottage\", \"Lakeside Lodge\",\r",
+									"    \"Hilltop Haven\", \"Cedar Retreat\", \"Rosewood Residence\", \"Ivy Lane Cottage\", \"Forest View House\",\r",
+									"    \"Alder Manor\", \"Beechwood House\", \"Juniper Retreat\", \"Magnolia Mansion\", \"Winding Way Cottage\",\r",
+									"    \"Harbor View House\", \"Greenwood Cottage\", \"Silver Oak Residence\"\r",
+									"];\r",
+									"\r",
+									"function getRandomHouse() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomHouseNames.length);\r",
+									"    return randomHouseNames[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address\", getRandomHouse());\r",
+									"\r",
+									"// Random Address\r",
+									"\r",
+									"const randomStreets = [\r",
+									"    \"High Street\", \"Main Street\", \"Park Avenue\", \"Maple Street\", \"Oak Avenue\",\r",
+									"    \"Chestnut Lane\", \"Willow Road\", \"Pine Drive\", \"Elm Street\", \"Birch Lane\",\r",
+									"    \"Meadow Lane\", \"Sunset Boulevard\", \"River Road\", \"Sycamore Avenue\", \"Cherry Lane\",\r",
+									"    \"Lakeside Drive\", \"Hillcrest Avenue\", \"Cedar Street\", \"Rosewood Lane\", \"Ivy Lane\",\r",
+									"    \"Forest Avenue\", \"Alder Road\", \"Beech Street\", \"Juniper Lane\", \"Magnolia Drive\",\r",
+									"    \"Winding Way\", \"Harbor View\", \"Greenwood Avenue\", \"Silver Oak Lane\"\r",
+									"];\r",
+									"\r",
+									"function getRandomStreet() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomStreets.length);\r",
+									"    return randomStreets[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address1\", getRandomStreet()); \r",
+									"\r",
+									"\r",
+									"const randomCities = [\r",
+									"    \"London\", \"Manchester\", \"Birmingham\", \"Edinburgh\", \"Glasgow\", \"Liverpool\",\r",
+									"    \"Bristol\", \"Belfast\", \"Cardiff\", \"Leeds\", \"Sheffield\", \"Newcastle upon Tyne\",\r",
+									"    \"Nottingham\", \"Southampton\", \"Oxford\", \"Cambridge\", \"York\", \"Bath\", \"Aberdeen\",\r",
+									"    \"Brighton\", \"Inverness\", \"Exeter\", \"Dundee\", \"Chester\", \"Stirling\", \"Portsmouth\"\r",
+									"];\r",
+									"\r",
+									"function getRandomCity() {\r",
+									"   const randomCityIndex = Math.floor(Math.random() * randomCities.length);\r",
+									"   return randomCities[randomCityIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"City\", getRandomCity());\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "e41da5b7-2627-4df5-a508-95c5a2baa42e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": 13,\r\n    \"data\": [\r\n        {\r\n            \"profile_image\": null,\r\n            \"first_name\": \"{{Admin-firstname}}\",\r\n            \"last_name\": \"Admin\",\r\n            \"email\": \"{{Admin-email}}\",\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{City}}\",\r\n            \"country_id\": 1,\r\n            \"language_id\": null,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"payment_method_id\": 5,\r\n            \"invoice_frequency_id\": null,\r\n            \"status\": null,\r\n            \"user_tags_id\":[68]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}user/form_submit"
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"var responseJson = JSON.parse(responseBody);\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"Admin_ID\", responseJson.data[0]['id']);\r",
+									"postman.setEnvironmentVariable(\"Admin-mail\", responseJson.data[0]['email']);"
+								],
+								"type": "text/javascript",
+								"id": "c8c621e7-b11b-4e21-a042-b738a61fab3f"
+							}
+						}
+					],
+					"id": "5cf3e788-9c8e-42b8-b802-b6638f7dc3ad",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{refresh_token1}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{Url}}user/list/user_management"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "12b91e8b-ece8-4b32-bbcc-e4de07feb9e4",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "fb97d0af-a24a-4c44-b595-ece774928b35",
+								"exec": [
+									"// List of names\r",
+									"const names = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// List of domain names\r",
+									"const domains = [\"gmail.com\", \"agilecyber.com\", \"agilecybersolutions.com\"];\r",
+									" \r",
+									"// Function to generate a unique email with random 5-digit number\r",
+									"function generateUniqueEmail() {\r",
+									"    const randomIndexName = Math.floor(Math.random() * names.length);\r",
+									"    const randomName = names[randomIndexName].toLowerCase();\r",
+									"    \r",
+									"    const randomIndexDomain = Math.floor(Math.random() * domains.length);\r",
+									"    const randomDomain = domains[randomIndexDomain];\r",
+									" \r",
+									"    const uniqueIdentifier = Math.floor(10000 + Math.random() * 90000); // Generate random 5-digit number\r",
+									" \r",
+									"    return `${randomName}_${uniqueIdentifier}@${randomDomain}`;\r",
+									"}\r",
+									" \r",
+									"// Set the unique email as a variable\r",
+									"pm.variables.set(\"Admin-email\", generateUniqueEmail()); \r",
+									"\r",
+									"\r",
+									"//Firstname\r",
+									"// List of first names\r",
+									"const firstNames = [\r",
+									"    \"James\", \"Emma\", \"Oliver\", \"Olivia\", \"Jack\", \r",
+									"    \"Amelia\", \"William\", \"Isla\", \"Noah\", \"Ava\", \r",
+									"    \"George\", \"Sophia\", \"Harry\", \"Mia\", \"Charlie\", \r",
+									"    \"Harper\", \"Henry\", \"Grace\", \"Thomas\", \"Lily\"\r",
+									"];\r",
+									" \r",
+									"// Function to get a random first name\r",
+									"function getRandomFirstName() {\r",
+									"    const randomIndex = Math.floor(Math.random() * firstNames.length);\r",
+									"    return firstNames[randomIndex];\r",
+									"}\r",
+									" \r",
+									"// Set the random first name as a variable\r",
+									"pm.variables.set(\"Admin-firstname\", getRandomFirstName()); \r",
+									"\r",
+									"\r",
+									"const randomPostcodes = [\r",
+									"    \"AB1 2CD\", \"EF3 4GH\", \"IJ5 6KL\", \"MN7 8OP\", \"QR9 0ST\", \"UV1 2WX\", \"YZ3 4AB\",\r",
+									"    \"BC6 7DE\", \"GH8 9IJ\", \"KL0 1MN\", \"OP2 3QR\", \"ST4 5UV\", \"WX6 7YZ\", \"DE8 9FG\",\r",
+									"    \"IJ0 1KL\", \"MN2 3OP\", \"QR4 5ST\", \"UV6 7WX\", \"YZ8 9AB\", \"FG0 1IJ\", \"KL3 4MN\",\r",
+									"    \"OP5 6QR\", \"ST7 8UV\", \"WX9 0YZ\", \"AB2 3CD\", \"DE4 5FG\", \"IJ6 7KL\", \"MN8 9OP\",\r",
+									"    \"QR1 2ST\", \"UV3 4WX\"\r",
+									"];\r",
+									" \r",
+									"function getRandomPostal() {\r",
+									"    const randomIndex = Math.floor(Math.random() * randomPostcodes.length);\r",
+									"    return randomPostcodes[randomIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"postcode\", getRandomPostal()); \r",
+									"\r",
+									"\r",
+									"\r",
+									"function generateRandomName() {\r",
+									"  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';\r",
+									"  const nameLength = Math.floor(Math.random() * 10) + 5; // Generates a name with 5 to 14 characters\r",
+									"  let randomName = '';\r",
+									"\r",
+									"  for (let i = 0; i < nameLength; i++) {\r",
+									"    const randomIndex = Math.floor(Math.random() * alphabet.length);\r",
+									"    randomName += alphabet.charAt(randomIndex);\r",
+									"  }\r",
+									"\r",
+									"  return randomName;\r",
+									"}\r",
+									"\r",
+									"const randomName = generateRandomName();\r",
+									"pm.globals.set(\"city\", randomName);\r",
+									"\r",
+									"\r",
+									"\r",
+									"const randomDigits = [\r",
+									"    \"9876543210\", \"8765432109\", \"7654321098\", \"6543210987\", \"5432109876\", \"4321098765\", \"3210987654\"\r",
+									"];\r",
+									"\r",
+									"// Function to generate a random set of 7 digits for the phone number\r",
+									"function getRandomPhoneNumber() {\r",
+									"    const randomDigit = Math.floor(Math.random() * randomDigits.length);\r",
+									"    return randomDigits[randomDigit];\r",
+									"}\r",
+									"\r",
+									"// Set the random UK phone number as a variable\r",
+									"pm.variables.set(\"phone\", `44${getRandomPhoneNumber()}`);\r",
+									"\r",
+									"\r",
+									"const randomHouseNames = [\r",
+									"    \"Rose Cottage\", \"Oak View House\", \"Meadowcroft\", \"The Pines\", \"Riverside Manor\",\r",
+									"    \"Elmwood Lodge\", \"Ivy Cottage\", \"Sunnyside Retreat\", \"Willow House\", \"Cedar Haven\",\r",
+									"    \"Maple Mansion\", \"Sunset Villa\", \"Riverbank House\", \"Cherry Blossom Cottage\", \"Lakeside Lodge\",\r",
+									"    \"Hilltop Haven\", \"Cedar Retreat\", \"Rosewood Residence\", \"Ivy Lane Cottage\", \"Forest View House\",\r",
+									"    \"Alder Manor\", \"Beechwood House\", \"Juniper Retreat\", \"Magnolia Mansion\", \"Winding Way Cottage\",\r",
+									"    \"Harbor View House\", \"Greenwood Cottage\", \"Silver Oak Residence\"\r",
+									"];\r",
+									"\r",
+									"function getRandomHouse() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomHouseNames.length);\r",
+									"    return randomHouseNames[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address\", getRandomHouse());\r",
+									"\r",
+									"// Random Address\r",
+									"\r",
+									"const randomStreets = [\r",
+									"    \"High Street\", \"Main Street\", \"Park Avenue\", \"Maple Street\", \"Oak Avenue\",\r",
+									"    \"Chestnut Lane\", \"Willow Road\", \"Pine Drive\", \"Elm Street\", \"Birch Lane\",\r",
+									"    \"Meadow Lane\", \"Sunset Boulevard\", \"River Road\", \"Sycamore Avenue\", \"Cherry Lane\",\r",
+									"    \"Lakeside Drive\", \"Hillcrest Avenue\", \"Cedar Street\", \"Rosewood Lane\", \"Ivy Lane\",\r",
+									"    \"Forest Avenue\", \"Alder Road\", \"Beech Street\", \"Juniper Lane\", \"Magnolia Drive\",\r",
+									"    \"Winding Way\", \"Harbor View\", \"Greenwood Avenue\", \"Silver Oak Lane\"\r",
+									"];\r",
+									"\r",
+									"function getRandomStreet() {\r",
+									"    const randomStreet = Math.floor(Math.random() * randomStreets.length);\r",
+									"    return randomStreets[randomStreet];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"address1\", getRandomStreet()); \r",
+									"\r",
+									"\r",
+									"const randomCities = [\r",
+									"    \"London\", \"Manchester\", \"Birmingham\", \"Edinburgh\", \"Glasgow\", \"Liverpool\",\r",
+									"    \"Bristol\", \"Belfast\", \"Cardiff\", \"Leeds\", \"Sheffield\", \"Newcastle upon Tyne\",\r",
+									"    \"Nottingham\", \"Southampton\", \"Oxford\", \"Cambridge\", \"York\", \"Bath\", \"Aberdeen\",\r",
+									"    \"Brighton\", \"Inverness\", \"Exeter\", \"Dundee\", \"Chester\", \"Stirling\", \"Portsmouth\"\r",
+									"];\r",
+									"\r",
+									"function getRandomCity() {\r",
+									"   const randomCityIndex = Math.floor(Math.random() * randomCities.length);\r",
+									"   return randomCities[randomCityIndex];\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"City\", getRandomCity());\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "4625ff5f-2231-4e0a-91a0-bfe10e887e33",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": [\r\n        {\r\n            \"id\": {{Admin_ID}},\r\n            \"profile_image\": \"https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg\",\r\n            \"first_name\": \"{{Admin-firstname}}\",\r\n            \"last_name\": \"Admin\",\r\n            \"email\": \"{{Admin-email}}\",\r\n            \"phone_number\": \"{{phone}}\",\r\n            \"address_1\": \"{{address}}\",\r\n            \"address_2\": \"{{address1}}\",\r\n            \"city\": \"{{City}}\",\r\n            \"country_id\": 1,\r\n            \"language_id\": null,\r\n            \"post_code\": \"{{postcode}}\",\r\n            \"payment_method_id\": 5,\r\n            \"invoice_frequency_id\": null,\r\n            \"status\": 1,\r\n            \"user_tags_id\": [68]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url}}user/form_submit?form_id=13",
+							"host": [
+								"{{Url}}user"
+							],
+							"path": [
+								"form_submit"
+							],
+							"query": [
+								{
+									"key": "form_id",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "102ad584-55b2-4a23-a11b-78dad524f6a0",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{Admin_refresh_token}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "aae1ca2d-3bec-47b8-a50d-ff086b065a38",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b87e5748-29bd-47b4-9616-2aba5f7e4c6c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
 			"name": "User details",
 			"item": [
 				{
